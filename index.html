@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bhushan Narware | Cybersecurity Researcher & Penetration Tester Portfolio</title>
+  <meta name="description" content="Professional portfolio of Bhushan Narware, Cybersecurity Researcher and Penetration Tester. Specializing in network reconnaissance, ethical hacking, SOC monitoring, and security automation.">
+  
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&family=Fira+Code:wght@400;500&display=swap" rel="stylesheet">
+  
+  <!-- CSS Stylesheets -->
+  <link rel="stylesheet" href="css/base.css">
+  <link rel="stylesheet" href="css/design-system.css">
+  <link rel="stylesheet" href="css/sections.css">
+  
+  <!-- Lucide Icons CDN -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <!-- ==========================================
+       HEADER & NAVIGATION
+       ========================================== -->
+  <header>
+    <div class="container nav-container">
+      <a href="#hero" class="logo" id="nav-logo-link">
+        BHUSHAN<span>.</span>SEC
+      </a>
+      
+      <nav>
+        <ul class="nav-links">
+          <li><a href="#hero" class="active" id="link-hero">Home</a></li>
+          <li><a href="#about" id="link-about">About & Skills</a></li>
+          <li><a href="#experience" id="link-experience">Experience</a></li>
+          <li><a href="#projects" id="link-projects">Projects</a></li>
+          <li><a href="#credentials" id="link-credentials">Credentials</a></li>
+          <li><a href="#dashboard" id="link-dashboard">Web Portal</a></li>
+          <li><a href="#contact" id="link-contact">Contact</a></li>
+        </ul>
+      </nav>
+
+      <!-- No Cart Actions -->
+    </div>
+  </header>
+
+  <main>
+    <!-- ==========================================
+         HERO SECTION
+         ========================================== -->
+    <section id="hero">
+      <canvas id="hero-particles"></canvas>
+      <div class="bg-gradient-glow" style="top: -10%; left: -10%;"></div>
+      
+      <div class="container hero-wrapper">
+        <div class="hero-content animate-fade-in">
+          <div class="hero-badge">
+            <span></span> Ethical Hacker & Pen-Tester
+          </div>
+          <h1 class="hero-title">
+            Bhushan Narware <br>
+            <span class="text-gradient" id="typewriter-text">Cybersecurity Researcher</span><span class="typewriter-cursor">|</span>
+          </h1>
+          <p class="hero-description">
+            Cybersecurity graduate and researcher specializing in penetration testing, vulnerability assessment, and security scripting. Securing networks and building custom automation tools.
+          </p>
+          <div class="hero-buttons">
+            <a href="#experience" class="btn btn-primary" id="hero-cta-exp">View Experience</a>
+            <a href="#dashboard" class="btn btn-secondary" id="hero-cta-dash">Intrusion Dashboard</a>
+          </div>
+        </div>
+
+        <div class="hero-visual animate-fade-in" style="animation-delay: 0.2s;">
+          <div class="glass-card glow-card hero-floating-card animate-pulse-glow" id="hero-interactive-code-card">
+            <div class="hero-card-header">
+              <span class="hero-card-dot"></span>
+              <span class="hero-card-dot"></span>
+              <span class="hero-card-dot"></span>
+            </div>
+            <pre class="hero-code"><code><span class="comment"># Port recon & footprint automation</span>
+<span class="tag">import</span> socket
+
+<span class="tag">def</span> <span class="val">target_recon</span>(host, port):
+    <span class="tag">try</span>:
+        s = socket.socket()
+        s.settimeout(<span class="val">0.5</span>)
+        s.connect((host, port))
+        print(<span class="val">f"[+] Active service: {port}"</span>)
+    <span class="tag">except</span>:
+        <span class="tag">pass</span>
+
+<span class="comment"># Active scanning sequence</span>
+target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>)</code></pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         ABOUT & SKILLS SECTION
+         ========================================== -->
+    <section id="about">
+      <div class="bg-gradient-glow" style="bottom: -10%; right: -10%;"></div>
+      <div class="container about-grid">
+        <div class="about-info">
+          <h2>Securing Pipelines <br><span class="text-gradient">& Infrastructure</span></h2>
+          <p class="about-text">
+            Computer Science graduate with hands-on cybersecurity internship experience in network reconnaissance, web application security testing, and vulnerability assessment. 
+          </p>
+          <p class="about-text">
+            Self-driven builder of independent security tools (OSINT automation, IP tracking, password management) and a local LLM deployment, reflecting strong initiative beyond coursework. Seeking a full-time penetration testing or security analyst role to apply and grow these skills in a production environment.
+          </p>
+        </div>
+
+        <div class="skills-wrapper">
+          <div id="skills-list-container">
+            <!-- Dynamically rendered by JS -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PROFESSIONAL EXPERIENCE SECTION
+         ========================================== -->
+    <section id="experience">
+      <div class="container">
+        <div class="saas-header">
+          <h2>Professional <span class="text-gradient">Experience</span></h2>
+          <p>Internship and industry experience applying security practices, vulnerability scanning, and secure scripting.</p>
+        </div>
+
+        <div class="experience-timeline" id="experience-timeline">
+          <!-- Dynamically rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         PROJECTS SECTION
+         ========================================== -->
+    <section id="projects">
+      <div class="container">
+        <div class="saas-header">
+          <h2>Security <span class="text-gradient">Projects Portfolio</span></h2>
+          <p>Open-source tools, scripts, and local configurations built to resolve scanning, credential, and privacy issues.</p>
+        </div>
+
+        <div class="products-grid" id="projects-grid">
+          <!-- Dynamically rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         CREDENTIALS & EDUCATION SECTION
+         ========================================== -->
+    <section id="credentials">
+      <div class="container">
+        <div class="saas-header">
+          <h2>Credentials & <span class="text-gradient">Education</span></h2>
+          <p>Academic degrees, certifications, and security accreditations that validate my technical foundation.</p>
+        </div>
+
+        <h3 style="margin-top: 3rem; font-size: 1.6rem; border-left: 3px solid var(--accent); padding-left: 1rem;">Certifications</h3>
+        <div class="certifications-grid" id="certs-grid">
+          <!-- Dynamically rendered by JS -->
+        </div>
+
+        <h3 style="margin-top: 4rem; font-size: 1.6rem; border-left: 3px solid var(--accent); padding-left: 1rem;">Education</h3>
+        <div class="education-grid" id="edu-grid">
+          <!-- Dynamically rendered by JS -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         SECURITY AUDIT ESTIMATOR (SAAS SHOWCASE)
+         ========================================== -->
+    <section id="saas">
+      <div class="container">
+        <div class="saas-header">
+          <h2>Security <span class="text-gradient">Audit Planner</span></h2>
+          <p>Estimate the footprint of your security assessments and calculate the value of patch remediation.</p>
+        </div>
+
+        <div class="saas-interactive-grid">
+          <!-- Audit Calculator -->
+          <div class="glass-card glow-card saas-calculator-card" id="saas-roi-calculator">
+            <div class="calc-title-row">
+              <h3>Vulnerability Exposure Estimator</h3>
+              <p>Configure targets to estimate discoverable issues and potential cost-avoidance values.</p>
+            </div>
+
+            <div class="calc-sliders-container">
+              <div class="calc-slider-group">
+                <div class="calc-label-row">
+                  <span>Target IP Endpoints / Hosts</span>
+                  <span class="skill-percentage"><span id="val-team">50</span> nodes</span>
+                </div>
+                <input type="range" min="10" max="500" value="50" class="calc-slider" id="slider-team">
+              </div>
+
+              <div class="calc-slider-group">
+                <div class="calc-label-row">
+                  <span>Audit Depth Intensity</span>
+                  <span class="skill-percentage"><span id="val-hours">4</span> / 10</span>
+                </div>
+                <input type="range" min="1" max="10" value="4" class="calc-slider" id="slider-hours">
+              </div>
+            </div>
+
+            <div class="calc-result-box">
+              <div class="result-item">
+                <h4>Estimated Gaps Discovered</h4>
+                <div class="result-val" id="roi-time">32 vulnerabilities</div>
+              </div>
+              <div class="result-item">
+                <h4>Breach Costs Prevented</h4>
+                <div class="result-val" id="roi-savings">$134,400</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Pricing Audit Card -->
+          <div class="glass-card glow-card saas-pricing-card" id="saas-pricing-tier">
+            <div class="pricing-toggle-container">
+              <span class="pricing-toggle-label active" id="lbl-monthly">Single Assessment</span>
+              <label class="switch">
+                <input type="checkbox" id="pricing-billing-checkbox" aria-label="Toggle annual contract discount">
+                <span class="slider-toggle"></span>
+              </label>
+              <span class="pricing-toggle-label" id="lbl-annual">Annual Retainer (-30%)</span>
+            </div>
+
+            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Infrastructure Pentest</h3>
+            <p style="color: hsl(var(--fg-secondary)); font-size: 0.9rem; margin-bottom: 1.5rem;">Deep security assessments targeting subnets and custom APIs.</p>
+
+            <div class="price-display">
+              <span class="price-amount" id="price-pro">$1,200</span>
+              <span class="price-period" id="period-pro">/audit</span>
+            </div>
+
+            <ul class="pricing-features">
+              <li><i data-lucide="check" style="width: 18px; height: 18px;"></i> Full OWASP Top 10 Web Audit</li>
+              <li><i data-lucide="check" style="width: 18px; height: 18px;"></i> External network vulnerability scans</li>
+              <li><i data-lucide="check" style="width: 18px; height: 18px;"></i> Passive OSINT target intelligence report</li>
+              <li><i data-lucide="check" style="width: 18px; height: 18px;"></i> Actionable mitigation & remediation map</li>
+            </ul>
+
+            <button class="btn btn-primary" style="width: 100%;" id="saas-purchase-btn">Order Security Audit</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ==========================================
+         EXTERNAL SECURE LINK / LAB PORTAL SECTION
+         ========================================== -->
+    <section id="dashboard">
+      <div class="container">
+        <div class="saas-header">
+          <h2>SecOps <span class="text-gradient">External Portal</span></h2>
+          <p>Launch configured cybersecurity platforms, target environments, or external research platforms.</p>
+        </div>
+
+        <div class="products-grid" id="portal-links-grid" style="margin-top: 3rem;">
+          <!-- Dynamically populated by JS (WhatsApp, Telegram, Custom Website) -->
+        </div>
+      </div>
+    </section>
+
+    <!-- Shop Section Removed -->
+
+    <!-- ==========================================
+         CONTACT FORM SECTION
+         ========================================== -->
+    <section id="contact">
+      <div class="container contact-container">
+        <div class="contact-info">
+          <h2>Secure <br><span class="text-gradient">Communications</span></h2>
+          <p style="color: hsl(var(--fg-secondary));">
+            Have questions about penetration testing reports, OSINT tools, or interested in security contracting? Send a message through this encrypted contact form.
+          </p>
+
+          <ul class="contact-info-list">
+            <li class="contact-info-item">
+              <div class="contact-info-icon">
+                <i data-lucide="mail"></i>
+              </div>
+              <div class="contact-info-text">
+                <h4>Primary Email</h4>
+                <p><a href="mailto:bhushannarware0911@gmail.com" style="color: hsl(var(--fg-bright)); text-decoration: none;">bhushannarware0911@gmail.com</a></p>
+              </div>
+            </li>
+            <li class="contact-info-item">
+              <div class="contact-info-icon">
+                <i data-lucide="phone"></i>
+              </div>
+              <div class="contact-info-text">
+                <h4>Mobile Contact</h4>
+                <p>+91 6267201050</p>
+              </div>
+            </li>
+            <li class="contact-info-item">
+              <div class="contact-info-icon">
+                <i data-lucide="map-pin"></i>
+              </div>
+              <div class="contact-info-text">
+                <h4>Location</h4>
+                <p>Bhopal, Madhya Pradesh, India</p>
+              </div>
+            </li>
+          </ul>
+        </div>
+
+        <div class="glass-card contact-card" id="contact-form-card">
+          <form id="contact-form">
+            <div class="form-group">
+              <label for="contact-name" class="form-label">Client Name / Organization</label>
+              <input type="text" id="contact-name" class="form-input" placeholder="Security Assessment Group" required>
+            </div>
+            
+            <div class="form-group">
+              <label for="contact-email" class="form-label">Secure Email Address</label>
+              <input type="email" id="contact-email" class="form-input" placeholder="audit@client.com" required>
+            </div>
+
+            <div class="form-group">
+              <label for="contact-msg" class="form-label">Brief Audit Scope / Details</label>
+              <textarea id="contact-msg" class="form-textarea" placeholder="List target domains, IP counts, or hardware requirements..." required></textarea>
+            </div>
+
+            <div class="submit-btn-wrapper">
+              <button type="submit" class="btn btn-primary" id="contact-submit-btn">Send Encrypted Message <i data-lucide="send" style="width: 16px; height: 16px;"></i></button>
+            </div>
+            
+            <div class="form-status" id="contact-form-status-msg"></div>
+          </form>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ==========================================
+       FLOATING CONFIGURATOR (THEME SWITCHER)
+       ========================================== -->
+  <div class="theme-configurator" id="accent-theme-settings">
+    <div class="glass-card configurator-panel" id="accent-theme-panel">
+      <h4>Accent Accent</h4>
+      <div class="color-options">
+        <button class="color-bubble active" data-theme="purple" aria-label="Purple theme color" id="theme-bubble-purple"></button>
+        <button class="color-bubble" data-theme="blue" aria-label="Blue theme color" id="theme-bubble-blue"></button>
+        <button class="color-bubble" data-theme="green" aria-label="Green theme color" id="theme-bubble-green"></button>
+        <button class="color-bubble" data-theme="amber" aria-label="Amber theme color" id="theme-bubble-amber"></button>
+      </div>
+    </div>
+    <button class="configurator-btn" aria-label="Open settings panel" id="accent-theme-toggle">
+      <i data-lucide="settings"></i>
+    </button>
+  </div>
+
+  <!-- ==========================================
+       SHOPPING CART DRAWER
+       ========================================== -->
+  <!-- Cart Drawer Removed -->
+
+  <!-- ==========================================
+       ADMIN ACCESS & MODALS
+       ========================================== -->
+  <button class="admin-floating-trigger" id="admin-floating-trigger" aria-label="Open Admin Control Panel">
+    <i data-lucide="shield-alert"></i>
+  </button>
+
+  <div class="admin-modal-overlay" id="admin-login-overlay">
+    <div class="glass-card admin-modal">
+      <button class="admin-modal-close" id="admin-login-close"><i data-lucide="x"></i></button>
+      <h3 style="margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+        <i data-lucide="lock" style="color: var(--accent);"></i> SecOps Console Login
+      </h3>
+      <form id="admin-login-form">
+        <div class="form-group">
+          <label for="admin-username" class="form-label">Username</label>
+          <input type="text" id="admin-username" class="form-input" required placeholder="admin">
+        </div>
+        <div class="form-group">
+          <label for="admin-password" class="form-label">Key Password</label>
+          <input type="password" id="admin-password" class="form-input" required placeholder="••••••••">
+        </div>
+        <button type="submit" class="btn btn-primary" style="width: 100%;">Establish Session</button>
+        <div id="admin-login-error" style="color: #ef4444; font-size: 0.85rem; margin-top: 1rem; display: none;">
+          <i data-lucide="alert-circle" style="width: 14px; height: 14px; display: inline-block; vertical-align: middle;"></i> Invalid SecOps credentials.
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div class="admin-dashboard-overlay" id="admin-dashboard-overlay">
+    <div class="glass-card admin-dashboard">
+      <div class="admin-dash-header">
+        <h3 style="display: flex; align-items: center; gap: 0.5rem;">
+          <i data-lucide="shield" style="color: #22c55e;"></i> SECURE ADMINISTRATION PORTAL
+        </h3>
+        <div style="display: flex; gap: 1rem; align-items: center;">
+          <button class="btn btn-secondary btn-sm" id="admin-logout-btn">Terminate Session</button>
+          <button class="admin-modal-close" id="admin-dash-close" style="position: static;"><i data-lucide="x"></i></button>
+        </div>
+      </div>
+      <div class="admin-dash-body">
+        <div class="admin-dash-sidebar">
+          <button class="admin-sidebar-btn" data-tab="tab-sections"><i data-lucide="layers"></i> Layout Modules</button>
+          <button class="admin-sidebar-btn" data-tab="tab-experience"><i data-lucide="briefcase"></i> Experience</button>
+          <button class="admin-sidebar-btn" data-tab="tab-projects"><i data-lucide="folder-git-2"></i> Projects</button>
+          <button class="admin-sidebar-btn" data-tab="tab-certs"><i data-lucide="award"></i> Credentials</button>
+          <button class="admin-sidebar-btn" data-tab="tab-portal"><i data-lucide="link"></i> Portal Link</button>
+          <button class="admin-sidebar-btn" data-tab="tab-skills"><i data-lucide="wrench"></i> Skills</button>
+        </div>
+        
+        <div class="admin-dash-content">
+          <!-- TAB: SECTIONS -->
+          <div class="admin-tab-pane active" id="tab-sections">
+            <h3 style="margin-bottom: 1.5rem;">Active Layout Sections</h3>
+            <div class="section-toggles-grid">
+              <div class="toggle-item-card">
+                <div class="toggle-info">
+                  <h4>About & Skills</h4>
+                  <p>Bio summary and skill meters</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" class="section-toggle-checkbox" data-section="about" checked>
+                  <span class="slider-toggle"></span>
+                </label>
+              </div>
+              <div class="toggle-item-card">
+                <div class="toggle-info">
+                  <h4>Experience Timeline</h4>
+                  <p>List of previous internships</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" class="section-toggle-checkbox" data-section="experience" checked>
+                  <span class="slider-toggle"></span>
+                </label>
+              </div>
+              <div class="toggle-item-card">
+                <div class="toggle-info">
+                  <h4>Projects Grid</h4>
+                  <p>Security tool repositories</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" class="section-toggle-checkbox" data-section="projects" checked>
+                  <span class="slider-toggle"></span>
+                </label>
+              </div>
+              <div class="toggle-item-card">
+                <div class="toggle-info">
+                  <h4>Credentials & Education</h4>
+                  <p>Certifications and degrees</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" class="section-toggle-checkbox" data-section="credentials" checked>
+                  <span class="slider-toggle"></span>
+                </label>
+              </div>
+              <div class="toggle-item-card">
+                <div class="toggle-info">
+                  <h4>Security Audit Planner</h4>
+                  <p>Audit scope estimation calculator</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" class="section-toggle-checkbox" data-section="saas" checked>
+                  <span class="slider-toggle"></span>
+                </label>
+              </div>
+              <div class="toggle-item-card">
+                <div class="toggle-info">
+                  <h4>External Portal Link</h4>
+                  <p>Custom external lab/resource link card</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" class="section-toggle-checkbox" data-section="dashboard" checked>
+                  <span class="slider-toggle"></span>
+                </label>
+              </div>
+              <!-- Shop Toggle Removed -->
+            </div>
+          </div>
+
+          <!-- TAB: EXPERIENCE -->
+          <div class="admin-tab-pane" id="tab-experience">
+            <div class="admin-add-form">
+              <h3>Register New Internship</h3>
+              <form id="admin-add-exp-form">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Role Title</label>
+                    <input type="text" id="exp-add-role" class="form-input" placeholder="Security Analyst" required>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Company Name</label>
+                    <input type="text" id="exp-add-company" class="form-input" placeholder="SecureNet Inc." required>
+                  </div>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Duration Period</label>
+                    <input type="text" id="exp-add-date" class="form-input" placeholder="May 2026 - Present" required>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Location / Mode</label>
+                    <input type="text" id="exp-add-loc" class="form-input" placeholder="Remote" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Key Accomplishments (Comma-separated bullets)</label>
+                  <textarea id="exp-add-bullets" class="form-textarea" placeholder="Analyzed system logs, Built automated scripts, Documented patches..." required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Add Experience</button>
+              </form>
+            </div>
+            <h3>Active Internship Listings</h3>
+            <div class="admin-items-list" id="admin-exp-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- TAB: PROJECTS -->
+          <div class="admin-tab-pane" id="tab-projects">
+            <div class="admin-add-form">
+              <h3>Register New Project Repository</h3>
+              <form id="admin-add-proj-form">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Project Title</label>
+                    <input type="text" id="proj-add-title" class="form-input" placeholder="SecScan" required>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Project Category</label>
+                    <input type="text" id="proj-add-cat" class="form-input" placeholder="OSINT Tool" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Detailed Description</label>
+                  <textarea id="proj-add-desc" class="form-textarea" placeholder="Vulnerability scanning automation utility..." required></textarea>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Technologies (Comma-separated)</label>
+                    <input type="text" id="proj-add-tags" class="form-input" placeholder="Python, APIs, Bash" required>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">GitHub Link (Optional)</label>
+                    <input type="url" id="proj-add-git" class="form-input" placeholder="https://github.com/... (optional)">
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Add Project</button>
+              </form>
+            </div>
+            <h3>Active Projects</h3>
+            <div class="admin-items-list" id="admin-proj-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- TAB: CREDENTIALS -->
+          <div class="admin-tab-pane" id="tab-certs">
+            <div class="admin-add-form">
+              <h3>Register New Certificate</h3>
+              <form id="admin-add-cert-form">
+                <div class="form-group">
+                  <label class="form-label">Certificate Title</label>
+                  <input type="text" id="cert-add-title" class="form-input" placeholder="CompTIA Security+" required>
+                </div>
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Issuer</label>
+                    <input type="text" id="cert-add-issuer" class="form-input" placeholder="CompTIA" required>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Issue Date / Info</label>
+                    <input type="text" id="cert-add-year" class="form-input" placeholder="Issued 2026" required>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Add Certificate</button>
+              </form>
+            </div>
+            <h3>Active Certificates</h3>
+            <div class="admin-items-list" id="admin-certs-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+
+          <!-- Shop Pane Removed -->
+          
+          <!-- TAB: PORTAL LINK SETTINGS -->
+          <div class="admin-tab-pane" id="tab-portal">
+            <div class="admin-add-form">
+              <h3>Register New Portal Link</h3>
+              <form id="admin-add-portal-form">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Link Type</label>
+                    <select id="portal-add-type" class="form-input" required style="background: rgb(24, 24, 28);">
+                      <option value="whatsapp">WhatsApp Contact</option>
+                      <option value="telegram">Telegram Channel</option>
+                      <option value="website">Custom Website</option>
+                    </select>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Link Title</label>
+                    <input type="text" id="portal-add-title" class="form-input" placeholder="Support Chat / Research Lab" required>
+                  </div>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Link Subtext / Description</label>
+                  <input type="text" id="portal-add-desc" class="form-input" placeholder="Instant access to my personal lab or chat feed..." required>
+                </div>
+                <div class="form-group">
+                  <label class="form-label">Website URL Link</label>
+                  <input type="url" id="portal-add-url" class="form-input" placeholder="https://..." required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Add Portal Link</button>
+              </form>
+            </div>
+            <h3>Active Portal Links</h3>
+            <div class="admin-items-list" id="admin-portals-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+          
+          <!-- TAB: SKILLS -->
+          <div class="admin-tab-pane" id="tab-skills">
+            <div class="admin-add-form">
+              <h3>Register New Skill</h3>
+              <form id="admin-add-skill-form">
+                <div style="display: grid; grid-template-columns: 2fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Skill Title / Description</label>
+                    <input type="text" id="skill-add-name" class="form-input" placeholder="Cloud Security (AWS, GCP)" required>
+                  </div>
+                  <div class="form-group" style="margin-bottom: 0;">
+                    <label class="form-label">Proficiency Percentage</label>
+                    <input type="number" id="skill-add-percent" class="form-input" min="1" max="100" placeholder="90" required>
+                  </div>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Add Skill</button>
+              </form>
+            </div>
+            <h3>Active Skills</h3>
+            <div class="admin-items-list" id="admin-skills-list">
+              <!-- Dynamically populated -->
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==========================================
+       FOOTER
+       ========================================== -->
+  <footer>
+    <div class="container footer-container">
+      <ul class="footer-socials">
+        <li><a href="https://github.com/Bhushan-narware" target="_blank" aria-label="Github profile link" id="footer-social-github"><i data-lucide="github"></i></a></li>
+        <li><a href="https://linkedin.com/in/Bhushan_narware" target="_blank" aria-label="Linkedin profile link" id="footer-social-linkedin"><i data-lucide="linkedin"></i></a></li>
+        <li><a href="#" aria-label="Admin portal login link" id="footer-admin-login-link"><i data-lucide="lock"></i></a></li>
+      </ul>
+      <p class="footer-copy">&copy; 2026 Bhushan Narware. Cybersecurity Professional Portfolio. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Application Script Loading -->
+  <script src="js/app.js"></script>
+  <script src="js/saas.js"></script>
+  
+  <script>
+    // Initialize Lucide icons on page load
+    lucide.createIcons();
+  </script>
+</body>
+</html>

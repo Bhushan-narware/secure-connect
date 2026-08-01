@@ -176,85 +176,7 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
       </div>
     </section>
 
-    <!-- ==========================================
-         SECURITY AUDIT ESTIMATOR (SAAS SHOWCASE)
-         ========================================== -->
-    <section id="saas">
-      <div class="container">
-        <div class="saas-header">
-          <h2>Security <span class="text-gradient">Audit Planner</span></h2>
-          <p>Estimate the footprint of your security assessments and calculate the value of patch remediation.</p>
-        </div>
 
-        <div class="saas-interactive-grid">
-          <!-- Audit Calculator -->
-          <div class="glass-card glow-card saas-calculator-card" id="saas-roi-calculator">
-            <div class="calc-title-row">
-              <h3>Vulnerability Exposure Estimator</h3>
-              <p>Configure targets to estimate discoverable issues and potential cost-avoidance values.</p>
-            </div>
-
-            <div class="calc-sliders-container">
-              <div class="calc-slider-group">
-                <div class="calc-label-row">
-                  <span>Target IP Endpoints / Hosts</span>
-                  <span class="skill-percentage"><span id="val-team">50</span> nodes</span>
-                </div>
-                <input type="range" min="10" max="500" value="50" class="calc-slider" id="slider-team">
-              </div>
-
-              <div class="calc-slider-group">
-                <div class="calc-label-row">
-                  <span>Audit Depth Intensity</span>
-                  <span class="skill-percentage"><span id="val-hours">4</span> / 10</span>
-                </div>
-                <input type="range" min="1" max="10" value="4" class="calc-slider" id="slider-hours">
-              </div>
-            </div>
-
-            <div class="calc-result-box">
-              <div class="result-item">
-                <h4>Estimated Gaps Discovered</h4>
-                <div class="result-val" id="roi-time">32 vulnerabilities</div>
-              </div>
-              <div class="result-item">
-                <h4>Breach Costs Prevented</h4>
-                <div class="result-val" id="roi-savings">$134,400</div>
-              </div>
-            </div>
-          </div>
-
-          <!-- Pricing Audit Card -->
-          <div class="glass-card glow-card saas-pricing-card" id="saas-pricing-tier">
-            <div class="pricing-toggle-container">
-              <span class="pricing-toggle-label active" id="lbl-monthly">Single Assessment</span>
-              <label class="switch">
-                <input type="checkbox" id="pricing-billing-checkbox" aria-label="Toggle annual contract discount">
-                <span class="slider-toggle"></span>
-              </label>
-              <span class="pricing-toggle-label" id="lbl-annual">Annual Retainer (-30%)</span>
-            </div>
-
-            <h3 style="font-size: 1.5rem; margin-bottom: 0.5rem;">Infrastructure Pentest</h3>
-            <p style="color: hsl(var(--fg-secondary)); font-size: 0.9rem; margin-bottom: 1.5rem;">Deep security assessments targeting subnets and custom APIs.</p>
-
-            <div class="price-display">
-              <span class="price-amount" id="price-pro">$1,200</span>
-              <span class="price-period" id="period-pro">/audit</span>
-            </div>
-
-            <ul class="pricing-features">
-              <li><i data-lucide="check" style="width: 18px; height: 18px;"></i> Full OWASP Top 10 Web Audit</li>
-              <li><i data-lucide="check" style="width: 18px; height: 18px;"></i> External network vulnerability scans</li>
-              <li><i data-lucide="check" style="width: 18px; height: 18px;"></i> Passive OSINT target intelligence report</li>
-              <li><i data-lucide="check" style="width: 18px; height: 18px;"></i> Actionable mitigation & remediation map</li>
-            </ul>
-
-            <button class="btn btn-primary" style="width: 100%;" id="saas-purchase-btn">Order Security Audit</button>
-          </div>
-        </div>
-      </div>
-    </section>
 
     <!-- ==========================================
          EXTERNAL SECURE LINK / LAB PORTAL SECTION
@@ -463,16 +385,7 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
                   <span class="slider-toggle"></span>
                 </label>
               </div>
-              <div class="toggle-item-card">
-                <div class="toggle-info">
-                  <h4>Security Audit Planner</h4>
-                  <p>Audit scope estimation calculator</p>
-                </div>
-                <label class="switch">
-                  <input type="checkbox" class="section-toggle-checkbox" data-section="saas" checked>
-                  <span class="slider-toggle"></span>
-                </label>
-              </div>
+
               <div class="toggle-item-card">
                 <div class="toggle-info">
                   <h4>External Portal Link</h4>
@@ -673,7 +586,7 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
 
   <!-- Application Script Loading -->
   <script src="js/app.js"></script>
-  <script src="js/saas.js"></script>
+
   
   <script>
     // Initialize Lucide icons on page load

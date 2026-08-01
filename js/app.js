@@ -164,7 +164,6 @@ function initCVDataStores() {
       experience: true,
       projects: true,
       credentials: true,
-      saas: true,
       dashboard: true
     };
     localStorage.setItem('secops-sections', JSON.stringify(defaultSections));
@@ -1339,7 +1338,6 @@ function applySectionVisibility() {
     else if (sectionId === 'experience') linkId = 'link-experience';
     else if (sectionId === 'projects') linkId = 'link-projects';
     else if (sectionId === 'credentials') linkId = 'link-credentials';
-    else if (sectionId === 'saas') linkId = 'link-saas';
     else if (sectionId === 'dashboard') linkId = 'link-dashboard';
 
     const navLink = document.getElementById(linkId);

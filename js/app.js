@@ -682,17 +682,45 @@ function initContactForm() {
   form.addEventListener('submit', (e) => {
     e.preventDefault();
     statusEl.className = 'form-status sending';
+    statusEl.style.display = 'block';
     statusEl.innerHTML = '<i class="lucide-loader-2 animate-spin"></i> Establishing secure tunnel... Sending packet...';
     
-    setTimeout(() => {
-      statusEl.className = 'form-status success';
-      statusEl.innerHTML = '<i class="lucide-check-circle"></i> Handshake success! Message delivered and logged.';
-      form.reset();
-      
-      setTimeout(() => {
-        statusEl.style.display = 'none';
-      }, 5000);
-    }, 1500);
+    const name = document.getElementById('contact-name').value;
+    const email = document.getElementById('contact-email').value;
+    const msg = document.getElementById('contact-msg').value;
+
+    fetch('https://formsubmit.co/ajax/bhushannarware0911@gmail.com', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json'
+      },
+      body: JSON.stringify({
+        name: name,
+        email: email,
+        message: msg,
+        _subject: `New SecOps Contact Message from ${name}`
+      })
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.success === 'true' || data.success === true) {
+        statusEl.className = 'form-status success';
+        statusEl.innerHTML = '<i class="lucide-check-circle"></i> Handshake success! Message delivered to your inbox.';
+        form.reset();
+        
+        setTimeout(() => {
+          statusEl.style.display = 'none';
+        }, 6000);
+      } else {
+        throw new Error('FormSubmit returned error status');
+      }
+    })
+    .catch(err => {
+      console.error(err);
+      statusEl.className = 'form-status error';
+      statusEl.innerHTML = '<i class="lucide-alert-circle"></i> Tunnel error! Message delivery failed. Please contact bhushannarware0911@gmail.com directly.';
+    });
   });
 }
 

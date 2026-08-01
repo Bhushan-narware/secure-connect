@@ -242,17 +242,17 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
           <form id="contact-form">
             <div class="form-group">
               <label for="contact-name" class="form-label">Client Name / Organization</label>
-              <input type="text" id="contact-name" class="form-input" placeholder="Security Assessment Group" required>
+              <input type="text" id="contact-name" name="name" class="form-input" placeholder="Security Assessment Group" required>
             </div>
             
             <div class="form-group">
               <label for="contact-email" class="form-label">Secure Email Address</label>
-              <input type="email" id="contact-email" class="form-input" placeholder="audit@client.com" required>
+              <input type="email" id="contact-email" name="email" class="form-input" placeholder="audit@client.com" required>
             </div>
 
             <div class="form-group">
               <label for="contact-msg" class="form-label">Brief Audit Scope / Details</label>
-              <textarea id="contact-msg" class="form-textarea" placeholder="List target domains, IP counts, or hardware requirements..." required></textarea>
+              <textarea id="contact-msg" name="message" class="form-textarea" placeholder="List target domains, IP counts, or hardware requirements..." required></textarea>
             </div>
 
             <div class="submit-btn-wrapper">

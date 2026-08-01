@@ -1,4 +1,7 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // --- Check Rate Limiter First ---
+  if (!initRateLimiter()) return;
+
   // --- Initialize CV Datastores ---
   initCVDataStores();
   
@@ -17,6 +20,193 @@ document.addEventListener('DOMContentLoaded', () => {
   renderAllCVContent();
   applySectionVisibility();
 });
+
+/* ==========================================
+   FIREWALL RATE LIMITER (5 Visits per Hour)
+   ========================================== */
+function initRateLimiter() {
+  const now = Date.now();
+  const oneHour = 3600000;
+  const oneHourAgo = now - oneHour;
+
+  // Retrieve visit logs
+  let visits = JSON.parse(localStorage.getItem('secops-visit-logs')) || [];
+  visits = visits.filter(t => t > oneHourAgo);
+
+  if (visits.length >= 5) {
+    // Block client access!
+    renderRateLimitBlockedPage(visits);
+    return false;
+  } else {
+    // Log current visit
+    visits.push(now);
+    localStorage.setItem('secops-visit-logs', JSON.stringify(visits));
+    return true;
+  }
+}
+
+function renderRateLimitBlockedPage(visits) {
+  // Inject custom block styling
+  const style = document.createElement('style');
+  style.innerHTML = `
+    .rate-limit-screen {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background: radial-gradient(circle at center, #150a0a 0%, #030101 100%);
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      color: #f3f4f6;
+      padding: 2rem;
+      margin: 0;
+      box-sizing: border-box;
+    }
+    .rate-limit-card {
+      max-width: 480px;
+      width: 100%;
+      background: rgba(20, 10, 10, 0.45);
+      border: 1px solid rgba(239, 68, 68, 0.15);
+      border-radius: 16px;
+      padding: 2.5rem;
+      text-align: center;
+      box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.8), 0 0 40px rgba(239, 68, 68, 0.05);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      animation: pulseBorder 4s infinite alternate;
+    }
+    @keyframes pulseBorder {
+      0% { border-color: rgba(239, 68, 68, 0.15); }
+      100% { border-color: rgba(239, 68, 68, 0.35); }
+    }
+    .shield-alert-icon {
+      background: rgba(239, 68, 68, 0.1);
+      width: 80px;
+      height: 80px;
+      border-radius: 50%;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 0 auto 1.5rem auto;
+      border: 1px solid rgba(239, 68, 68, 0.25);
+      animation: pulseShield 2s infinite alternate;
+    }
+    @keyframes pulseShield {
+      0% { transform: scale(1); box-shadow: 0 0 0 0 rgba(239, 68, 68, 0.2); }
+      100% { transform: scale(1.05); box-shadow: 0 0 20px 5px rgba(239, 68, 68, 0.1); }
+    }
+    .rate-limit-card h2 {
+      font-size: 1.8rem;
+      margin: 0 0 0.5rem 0;
+      font-weight: 700;
+      color: #ef4444;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+    }
+    .rate-limit-title {
+      font-size: 1.1rem;
+      color: #9ca3af;
+      margin: 0 0 1.25rem 0;
+      font-weight: 500;
+    }
+    .rate-limit-desc {
+      font-size: 0.95rem;
+      color: #d1d5db;
+      line-height: 1.6;
+      margin-bottom: 2rem;
+    }
+    .countdown-box {
+      background: rgba(0, 0, 0, 0.3);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: 8px;
+      padding: 1.25rem;
+      margin-bottom: 1.5rem;
+    }
+    .countdown-label {
+      font-size: 0.8rem;
+      color: #9ca3af;
+      display: block;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+    .countdown-time {
+      font-size: 2.2rem;
+      font-weight: 700;
+      font-family: monospace;
+      color: #ef4444;
+      letter-spacing: 2px;
+    }
+    .client-details-box {
+      display: flex;
+      justify-content: space-between;
+      border-top: 1px solid rgba(255, 255, 255, 0.05);
+      padding-top: 1.25rem;
+      font-size: 0.8rem;
+      color: #6b7280;
+    }
+  `;
+  document.head.appendChild(style);
+
+  // Retrieve current IP for display
+  getCurrentIP().then(ip => {
+    const ipVal = ip || '49.36.17.201';
+    const clientIPEl = document.getElementById('rate-limit-client-ip');
+    if (clientIPEl) clientIPEl.textContent = `Client IP: ${ipVal}`;
+  });
+
+  // Render blocked page layout
+  document.body.innerHTML = `
+    <div class="rate-limit-screen">
+      <div class="rate-limit-card">
+        <div class="shield-alert-icon">
+          <svg xmlns="http://www.w3.org/2000/svg" width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-shield-alert" style="color: #ef4444;"><path d="M20 13c0 5-3.5 7.5-7.66 9.7a1 1 0 0 1-.68 0C7.5 20.5 4 18 4 13V6a1 1 0 0 1 .76-.97l8-2a1 1 0 0 1 .48 0l8 2A1 1 0 0 1 20 6v7z"/><path d="M12 8v4"/><path d="M12 16h.01"/></svg>
+        </div>
+        <h2>Access Blocked</h2>
+        <p class="rate-limit-title">Firewall Rate Limit Exceeded</p>
+        <p class="rate-limit-desc">
+          To prevent web scraping, denial of service (DoS), and automated crawlers, this client portal enforces a strict threshold of <strong>5 visits per hour</strong>.
+        </p>
+        <div class="countdown-box">
+          <span class="countdown-label">Cooling down connection tunnel...</span>
+          <div class="countdown-time" id="countdown-timer">00:00</div>
+        </div>
+        <div class="client-details-box">
+          <span id="rate-limit-client-ip">Client IP: Detecting...</span>
+          <span>Policy ID: SEC-RL-05H</span>
+        </div>
+      </div>
+    </div>
+  `;
+
+  // Start active countdown timer
+  const timerEl = document.getElementById('countdown-timer');
+  const interval = setInterval(() => {
+    const now = Date.now();
+    let activeVisits = JSON.parse(localStorage.getItem('secops-visit-logs')) || [];
+    activeVisits = activeVisits.filter(t => t > now - 3600000);
+
+    if (activeVisits.length < 5) {
+      clearInterval(interval);
+      window.location.reload();
+      return;
+    }
+
+    const oldestVisit = activeVisits[0];
+    const timeRemaining = (oldestVisit + 3600000) - now;
+
+    if (timeRemaining <= 0) {
+      clearInterval(interval);
+      window.location.reload();
+      return;
+    }
+
+    const mins = Math.floor(timeRemaining / 60000);
+    const secs = Math.floor((timeRemaining % 60000) / 1000);
+
+    const pad = (num) => String(num).padStart(2, '0');
+    timerEl.textContent = `${pad(mins)}:${pad(secs)}`;
+  }, 1000);
+}
 
 const editingState = {
   experience: null,

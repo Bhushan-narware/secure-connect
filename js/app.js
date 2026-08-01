@@ -680,6 +680,13 @@ function initContactForm() {
   if (!form) return;
 
   form.addEventListener('submit', (e) => {
+    // If running on local file system protocol, submit traditionally to bypass CORS blocks
+    if (window.location.protocol === 'file:') {
+      form.setAttribute('action', 'https://formsubmit.co/bhushannarware0911@gmail.com');
+      form.setAttribute('method', 'POST');
+      return;
+    }
+
     e.preventDefault();
     statusEl.className = 'form-status sending';
     statusEl.style.display = 'block';

@@ -206,12 +206,25 @@ function initCVDataStores() {
   if (!localStorage.getItem('secops-messages')) {
     localStorage.setItem('secops-messages', JSON.stringify([]));
   }
-  if (!localStorage.getItem('secops-allowed-ips')) {
-    getCurrentIP().then(ip => {
-      const defaults = ip ? [ip] : ['127.0.0.1'];
-      localStorage.setItem('secops-allowed-ips', JSON.stringify(defaults));
-    });
-  }
+  getCurrentIP().then(ip => {
+    let allowedIPs = JSON.parse(localStorage.getItem('secops-allowed-ips')) || [];
+    const onlyHasLoopbacks = allowedIPs.length === 0 || allowedIPs.every(x => x === '127.0.0.1' || x === '::1');
+    
+    if (ip) {
+      if (onlyHasLoopbacks || !allowedIPs.includes(ip)) {
+        if (onlyHasLoopbacks) {
+          allowedIPs = [ip];
+        } else {
+          allowedIPs.push(ip);
+        }
+        localStorage.setItem('secops-allowed-ips', JSON.stringify(allowedIPs));
+      }
+    } else {
+      if (allowedIPs.length === 0) {
+        localStorage.setItem('secops-allowed-ips', JSON.stringify(['127.0.0.1']));
+      }
+    }
+  });
 }
 
 /* ==========================================

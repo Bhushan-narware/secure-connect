@@ -1235,7 +1235,7 @@ function initAdminDataForms() {
       localStorage.setItem('secops-allowed-ips', JSON.stringify(allowedIPs));
       addIPForm.reset();
       populateAdminPanelLists();
-      alert(`🔐 IP address ${newIP} authorized successfully!`);
+      alert(`🔐 Firewall access rule added for IP ${newIP} successfully!`);
     });
   }
 }

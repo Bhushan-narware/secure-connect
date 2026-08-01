@@ -680,8 +680,11 @@ function initContactForm() {
   if (!form) return;
 
   form.addEventListener('submit', (e) => {
-    // If running on local file system protocol, let traditional submit happen naturally
-    if (window.location.protocol === 'file:') {
+    // If running locally (file protocol, localhost, or 127.0.0.1), let traditional submit happen to bypass CORS blocks
+    const isLocal = window.location.protocol === 'file:' || 
+                    window.location.hostname === 'localhost' || 
+                    window.location.hostname === '127.0.0.1';
+    if (isLocal) {
       return;
     }
 

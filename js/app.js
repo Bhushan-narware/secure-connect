@@ -680,15 +680,8 @@ function initContactForm() {
   if (!form) return;
 
   form.addEventListener('submit', (e) => {
-    // If running locally (file protocol, localhost, or 127.0.0.1), let traditional submit happen to bypass CORS blocks
-    const isLocal = window.location.protocol === 'file:' || 
-                    window.location.hostname === 'localhost' || 
-                    window.location.hostname === '127.0.0.1';
-    if (isLocal) {
-      return;
-    }
-
-    e.preventDefault();
+    e.preventDefault(); // Intercept submit to try background AJAX
+    
     statusEl.className = 'form-status sending';
     statusEl.style.display = 'block';
     statusEl.innerHTML = '<i class="lucide-loader-2 animate-spin"></i> Establishing secure tunnel... Sending packet...';
@@ -721,13 +714,18 @@ function initContactForm() {
           statusEl.style.display = 'none';
         }, 6000);
       } else {
-        throw new Error('FormSubmit returned error status');
+        throw new Error('FormSubmit AJAX failed');
       }
     })
     .catch(err => {
-      console.error(err);
-      statusEl.className = 'form-status error';
-      statusEl.innerHTML = '<i class="lucide-alert-circle"></i> Tunnel error! Message delivery failed. Please contact bhushannarware0911@gmail.com directly.';
+      console.warn("AJAX tunnel blocked. Falling back to traditional post transfer channel...", err);
+      statusEl.className = 'form-status sending';
+      statusEl.innerHTML = '<i class="lucide-loader-2 animate-spin"></i> Tunnel blocked! Redirecting to secure gateway...';
+      
+      // Submit traditionally using form.submit() which bypasses this submit event listener
+      setTimeout(() => {
+        form.submit();
+      }, 1000);
     });
   });
 }

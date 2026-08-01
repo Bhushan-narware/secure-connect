@@ -19,22 +19,7 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Render Dynamic Content ---
   renderAllCVContent();
   applySectionVisibility();
-  renderHeroSystemDiagnostics();
 });
-
-function renderHeroSystemDiagnostics() {
-  const osEl = document.getElementById('sys-val-os');
-  const browserEl = document.getElementById('sys-val-browser');
-  const resEl = document.getElementById('sys-val-res');
-
-  if (osEl && browserEl && resEl) {
-    const info = getSystemInfo();
-    const parts = info.split(' (');
-    osEl.textContent = parts[0];
-    browserEl.textContent = parts[1] ? parts[1].replace(')', '') : 'Unknown';
-    resEl.textContent = `${window.screen.width} x ${window.screen.height}`;
-  }
-}
 
 function getSystemInfo() {
   const ua = navigator.userAgent;

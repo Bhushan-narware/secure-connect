@@ -19,7 +19,43 @@ document.addEventListener('DOMContentLoaded', () => {
   // --- Render Dynamic Content ---
   renderAllCVContent();
   applySectionVisibility();
+  renderHeroSystemDiagnostics();
 });
+
+function renderHeroSystemDiagnostics() {
+  const osEl = document.getElementById('sys-val-os');
+  const browserEl = document.getElementById('sys-val-browser');
+  const resEl = document.getElementById('sys-val-res');
+
+  if (osEl && browserEl && resEl) {
+    const info = getSystemInfo();
+    const parts = info.split(' (');
+    osEl.textContent = parts[0];
+    browserEl.textContent = parts[1] ? parts[1].replace(')', '') : 'Unknown';
+    resEl.textContent = `${window.screen.width} x ${window.screen.height}`;
+  }
+}
+
+function getSystemInfo() {
+  const ua = navigator.userAgent;
+  let os = "Unknown OS";
+  if (ua.includes("Windows")) os = "Windows";
+  else if (ua.includes("Macintosh") || ua.includes("Mac OS")) os = "macOS";
+  else if (ua.includes("Linux")) os = "Linux";
+  else if (ua.includes("Android")) os = "Android";
+  else if (ua.includes("iPhone") || ua.includes("iPad")) os = "iOS";
+
+  let browser = "Unknown Browser";
+  if (ua.includes("Firefox")) browser = "Firefox";
+  else if (ua.includes("SamsungBrowser")) browser = "Samsung Browser";
+  else if (ua.includes("Opera") || ua.includes("OPR")) browser = "Opera";
+  else if (ua.includes("Trident")) browser = "Internet Explorer";
+  else if (ua.includes("Edge") || ua.includes("Edg")) browser = "Edge";
+  else if (ua.includes("Chrome")) browser = "Chrome";
+  else if (ua.includes("Safari")) browser = "Safari";
+
+  return `${os} (${browser})`;
+}
 
 /* ==========================================
    FIREWALL RATE LIMITER (5 Visits per Hour)
@@ -998,7 +1034,8 @@ function initContactForm() {
         name: name,
         email: email,
         message: msg,
-        date: new Date().toLocaleString()
+        date: new Date().toLocaleString(),
+        system: getSystemInfo()
       });
       localStorage.setItem('secops-messages', JSON.stringify(messages));
 
@@ -1564,7 +1601,7 @@ function populateAdminPanelLists() {
             <h4 style="margin: 0; color: var(--accent);">${m.name}</h4>
             <span style="font-size: 0.8rem; color: var(--fg-muted);">${m.date}</span>
           </div>
-          <p style="font-size: 0.85rem; color: var(--fg-secondary); margin: 0;"><strong>Email:</strong> ${m.email}</p>
+          <p style="font-size: 0.85rem; color: var(--fg-secondary); margin: 0;"><strong>Email:</strong> ${m.email} | <strong>System:</strong> ${m.system || 'Unknown'}</p>
           <p style="font-size: 0.9rem; color: var(--fg-bright); margin-top: 0.25rem; white-space: pre-wrap; background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 6px; width: 100%;">${m.message}</p>
           <div style="display: flex; justify-content: flex-end; width: 100%; margin-top: 0.5rem;">
             <button class="admin-delete-btn" data-id="${m.id}" data-type="message" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 0.3rem;"><i data-lucide="trash-2" style="width: 14px; height: 14px;"></i> Delete</button>

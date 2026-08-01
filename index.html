@@ -321,6 +321,7 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
           <button class="admin-sidebar-btn" data-tab="tab-skills"><i data-lucide="wrench"></i> Skills</button>
           <button class="admin-sidebar-btn" data-tab="tab-contact"><i data-lucide="settings"></i> Contact settings</button>
           <button class="admin-sidebar-btn" data-tab="tab-inbox"><i data-lucide="inbox"></i> Inbox</button>
+          <button class="admin-sidebar-btn" data-tab="tab-acl"><i data-lucide="shield-check"></i> Access ACL</button>
         </div>
         
         <div class="admin-dash-content">
@@ -581,6 +582,28 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
             </div>
             <div class="admin-items-list" id="admin-inbox-list">
               <!-- Dynamically populated messages list -->
+            </div>
+          </div>
+          
+          <!-- TAB: ACCESS ACL -->
+          <div class="admin-tab-pane" id="tab-acl">
+            <div class="admin-add-form">
+              <h3>Register Authorized IP Address</h3>
+              <form id="admin-add-ip-form">
+                <div class="form-group">
+                  <label class="form-label">New IP Address</label>
+                  <input type="text" id="ip-add-val" class="form-input" placeholder="e.g. 103.45.67.89" required>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Authorize IP</button>
+              </form>
+            </div>
+            <div style="margin-top: 1.5rem; background: rgba(var(--accent-rgb), 0.05); border: 1px solid rgba(var(--accent-rgb), 0.15); padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
+              <p style="margin: 0; color: var(--fg-secondary);">Your current connection IP address:</p>
+              <h4 style="margin: 0.25rem 0 0 0; color: var(--accent);" id="acl-current-ip-display">Detecting...</h4>
+            </div>
+            <h3 style="margin-top: 1.5rem;">Access Control List (ACL)</h3>
+            <div class="admin-items-list" id="admin-acl-list">
+              <!-- Dynamically populated IP rows -->
             </div>
           </div>
         </div>

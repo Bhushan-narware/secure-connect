@@ -139,6 +139,34 @@ const defaultPortalLinks = [
   }
 ];
 
+async function getCurrentIP() {
+  try {
+    const res = await fetch('https://api.ipify.org?format=json');
+    const data = await res.json();
+    return data.ip;
+  } catch (err) {
+    console.error("IP lookup failed:", err);
+    return null;
+  }
+}
+
+async function checkIPAccess() {
+  const allowedIPs = JSON.parse(localStorage.getItem('secops-allowed-ips')) || [];
+  if (allowedIPs.length === 0) return true;
+
+  const currentIP = await getCurrentIP();
+  if (currentIP) {
+    const isAllowed = allowedIPs.includes(currentIP) || 
+                      currentIP === '127.0.0.1' || 
+                      currentIP === '::1';
+    if (!isAllowed) {
+      alert(`🚫 Access Denied: Your connection IP address (${currentIP}) is not authorized to access this administrative portal. Contact system admin.`);
+      return false;
+    }
+  }
+  return true;
+}
+
 function initCVDataStores() {
   if (!localStorage.getItem('secops-skills')) {
     localStorage.setItem('secops-skills', JSON.stringify(defaultSkills));
@@ -177,6 +205,12 @@ function initCVDataStores() {
   }
   if (!localStorage.getItem('secops-messages')) {
     localStorage.setItem('secops-messages', JSON.stringify([]));
+  }
+  if (!localStorage.getItem('secops-allowed-ips')) {
+    getCurrentIP().then(ip => {
+      const defaults = ip ? [ip] : ['127.0.0.1'];
+      localStorage.setItem('secops-allowed-ips', JSON.stringify(defaults));
+    });
   }
 }
 
@@ -801,8 +835,11 @@ function initAdminSystem() {
 
   // Opening Login Screen
   if (footerLogin) {
-    footerLogin.addEventListener('click', (e) => {
+    footerLogin.addEventListener('click', async (e) => {
       e.preventDefault();
+      const hasAccess = await checkIPAccess();
+      if (!hasAccess) return;
+
       if (isLoggedIn) {
         // Toggle directly if already logged session
         if (dashOverlay) dashOverlay.classList.add('active');
@@ -813,9 +850,12 @@ function initAdminSystem() {
   }
 
   // Key combination to login Ctrl + Shift + A
-  document.addEventListener('keydown', (e) => {
+  document.addEventListener('keydown', async (e) => {
     if (e.ctrlKey && e.shiftKey && e.key.toLowerCase() === 'a') {
       e.preventDefault();
+      const hasAccess = await checkIPAccess();
+      if (!hasAccess) return;
+
       if (isLoggedIn) {
         if (dashOverlay) dashOverlay.classList.add('active');
       } else {
@@ -857,7 +897,10 @@ function initAdminSystem() {
 
   // Floating trigger open Dashboard
   if (floatingTrigger) {
-    floatingTrigger.addEventListener('click', () => {
+    floatingTrigger.addEventListener('click', async () => {
+      const hasAccess = await checkIPAccess();
+      if (!hasAccess) return;
+
       if (dashOverlay) {
         dashOverlay.classList.add('active');
         populateAdminPanelLists();
@@ -1161,6 +1204,27 @@ function initAdminDataForms() {
       alert('✉️ Contact Form settings updated successfully!');
     });
   }
+
+  // 7. AUTHORIZE NEW IP
+  const addIPForm = document.getElementById('admin-add-ip-form');
+  if (addIPForm) {
+    addIPForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const newIP = document.getElementById('ip-add-val').value.trim();
+      const allowedIPs = JSON.parse(localStorage.getItem('secops-allowed-ips')) || [];
+
+      if (allowedIPs.includes(newIP)) {
+        alert('This IP address is already authorized.');
+        return;
+      }
+
+      allowedIPs.push(newIP);
+      localStorage.setItem('secops-allowed-ips', JSON.stringify(allowedIPs));
+      addIPForm.reset();
+      populateAdminPanelLists();
+      alert(`🔐 IP address ${newIP} authorized successfully!`);
+    });
+  }
 }
 
 /* ==========================================
@@ -1322,12 +1386,58 @@ function populateAdminPanelLists() {
     });
   }
 
+  // IP Access List populate
+  const aclList = document.getElementById('admin-acl-list');
+  const currentIPDisplay = document.getElementById('acl-current-ip-display');
+  if (aclList) {
+    getCurrentIP().then(currentIP => {
+      if (currentIPDisplay) currentIPDisplay.textContent = currentIP || 'Offline (Localhost)';
+
+      const allowedIPs = JSON.parse(localStorage.getItem('secops-allowed-ips')) || [];
+      aclList.innerHTML = '';
+
+      allowedIPs.forEach(ip => {
+        const row = document.createElement('div');
+        row.className = 'admin-item-row';
+
+        const isOwnIP = ip === currentIP;
+        const deleteButton = isOwnIP
+          ? `<span style="font-size: 0.8rem; color: #22c55e; background: rgba(34, 197, 94, 0.1); padding: 0.3rem 0.6rem; border-radius: 4px;">Active Session</span>`
+          : `<button class="admin-delete-btn" data-id="${ip}" data-type="ip"><i data-lucide="trash-2"></i></button>`;
+
+        row.innerHTML = `
+          <div class="admin-item-details">
+            <h4 style="font-family: monospace;">${ip}</h4>
+            <p style="font-size: 0.8rem; color: var(--fg-muted);">${isOwnIP ? 'Your Current Authorized Laptop' : 'Authorized Access Point'}</p>
+          </div>
+          <div style="display: flex; gap: 0.5rem; align-items: center;">
+            ${deleteButton}
+          </div>
+        `;
+        aclList.appendChild(row);
+      });
+
+      // Bind delete triggers for IP
+      aclList.querySelectorAll('.admin-delete-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const ipToDelete = btn.getAttribute('data-id');
+          if (confirm(`Remove IP authorization for ${ipToDelete}?`)) {
+            deleteCVItem(ipToDelete, 'ip');
+          }
+        });
+      });
+      if (window.lucide) window.lucide.createIcons();
+    });
+  }
+
   // Bind deletion buttons events
   document.querySelectorAll('.admin-delete-btn').forEach(btn => {
     btn.addEventListener('click', () => {
       const id = btn.getAttribute('data-id');
       const type = btn.getAttribute('data-type');
-      deleteCVItem(id, type);
+      if (type !== 'ip') { // Handled separately due to async load
+        deleteCVItem(id, type);
+      }
     });
   });
 
@@ -1373,6 +1483,10 @@ function deleteCVItem(id, type) {
     let messages = JSON.parse(localStorage.getItem('secops-messages')) || [];
     messages = messages.filter(m => m.id !== id);
     localStorage.setItem('secops-messages', JSON.stringify(messages));
+  } else if (type === 'ip') {
+    let allowedIPs = JSON.parse(localStorage.getItem('secops-allowed-ips')) || [];
+    allowedIPs = allowedIPs.filter(ip => ip !== id);
+    localStorage.setItem('secops-allowed-ips', JSON.stringify(allowedIPs));
   }
 
   // If deleting the item currently being edited, reset the form

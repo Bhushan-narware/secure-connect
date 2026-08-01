@@ -239,28 +239,9 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
         </div>
 
         <div class="glass-card contact-card" id="contact-form-card">
-          <form id="contact-form" action="https://formsubmit.co/bhushannarware0911@gmail.com" method="POST">
-            <div class="form-group">
-              <label for="contact-name" class="form-label">Client Name / Organization</label>
-              <input type="text" id="contact-name" name="name" class="form-input" placeholder="Security Assessment Group" required>
-            </div>
-            
-            <div class="form-group">
-              <label for="contact-email" class="form-label">Secure Email Address</label>
-              <input type="email" id="contact-email" name="email" class="form-input" placeholder="audit@client.com" required>
-            </div>
-
-            <div class="form-group">
-              <label for="contact-msg" class="form-label">Brief Audit Scope / Details</label>
-              <textarea id="contact-msg" name="message" class="form-textarea" placeholder="List target domains, IP counts, or hardware requirements..." required></textarea>
-            </div>
-
-            <div class="submit-btn-wrapper">
-              <button type="submit" class="btn btn-primary" id="contact-submit-btn">Send Encrypted Message <i data-lucide="send" style="width: 16px; height: 16px;"></i></button>
-            </div>
-            
-            <div class="form-status" id="contact-form-status-msg"></div>
-          </form>
+          <div id="contact-form-container">
+            <!-- Dynamically rendered by JS (Standard Form or Google Form Iframe) -->
+          </div>
         </div>
       </div>
     </section>
@@ -338,6 +319,7 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
           <button class="admin-sidebar-btn" data-tab="tab-certs"><i data-lucide="award"></i> Credentials</button>
           <button class="admin-sidebar-btn" data-tab="tab-portal"><i data-lucide="link"></i> Portal Link</button>
           <button class="admin-sidebar-btn" data-tab="tab-skills"><i data-lucide="wrench"></i> Skills</button>
+          <button class="admin-sidebar-btn" data-tab="tab-contact"><i data-lucide="mail"></i> Contact Form</button>
         </div>
         
         <div class="admin-dash-content">
@@ -563,6 +545,30 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
             <h3>Active Skills</h3>
             <div class="admin-items-list" id="admin-skills-list">
               <!-- Dynamically populated -->
+            </div>
+          </div>
+          
+          <!-- TAB: CONTACT FORM SETTINGS -->
+          <div class="admin-tab-pane" id="tab-contact">
+            <div class="admin-add-form">
+              <h3>Configure Contact Form</h3>
+              <form id="admin-config-contact-form">
+                <div class="form-group">
+                  <label class="form-label">Contact Form Mode</label>
+                  <select id="contact-mode-select" class="form-input" style="background: rgb(24, 24, 28);">
+                    <option value="custom">Standard Encrypted Form (to Gmail)</option>
+                    <option value="google">Embedded Google Form</option>
+                  </select>
+                </div>
+                <div class="form-group" id="google-form-url-group" style="display: none; margin-bottom: 1.5rem;">
+                  <label class="form-label">Google Form URL Link</label>
+                  <input type="url" id="contact-google-url" class="form-input" placeholder="https://docs.google.com/forms/d/e/.../viewform?embedded=true">
+                  <p style="color: var(--fg-muted); font-size: 0.8rem; margin-top: 0.5rem;">
+                    Paste your Google Form share link. Include <code>?embedded=true</code> at the end of the URL to ensure it fits perfectly inside the card!
+                  </p>
+                </div>
+                <button type="submit" class="btn btn-primary btn-sm">Update Contact Form</button>
+              </form>
             </div>
           </div>
         </div>

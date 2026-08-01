@@ -168,6 +168,13 @@ function initCVDataStores() {
     };
     localStorage.setItem('secops-sections', JSON.stringify(defaultSections));
   }
+  if (!localStorage.getItem('secops-contact-config')) {
+    const defaultContactConfig = {
+      mode: 'custom',
+      googleUrl: ''
+    };
+    localStorage.setItem('secops-contact-config', JSON.stringify(defaultContactConfig));
+  }
 }
 
 /* ==========================================
@@ -179,6 +186,60 @@ function renderAllCVContent() {
   renderProjects();
   renderCertsAndEdu();
   renderPortalLink();
+  renderContactForm();
+}
+
+function renderContactForm() {
+  const container = document.getElementById('contact-form-container');
+  if (!container) return;
+
+  const config = JSON.parse(localStorage.getItem('secops-contact-config')) || { mode: 'custom', googleUrl: '' };
+  
+  const modeSelect = document.getElementById('contact-mode-select');
+  const googleUrlInput = document.getElementById('contact-google-url');
+  const urlGroup = document.getElementById('google-form-url-group');
+
+  // Auto populate values inside configuration panels inputs if present
+  if (modeSelect) modeSelect.value = config.mode;
+  if (googleUrlInput) googleUrlInput.value = config.googleUrl || '';
+  if (urlGroup) {
+    urlGroup.style.display = config.mode === 'google' ? 'block' : 'none';
+  }
+
+  if (config.mode === 'google' && config.googleUrl) {
+    container.innerHTML = `
+      <iframe src="${config.googleUrl}" width="100%" height="650" frameborder="0" marginheight="0" marginwidth="0" style="border-radius: 8px; background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.05);">Loading Google Form...</iframe>
+    `;
+  } else {
+    // Standard Custom form
+    container.innerHTML = `
+      <form id="contact-form" action="https://formsubmit.co/bhushannarware0911@gmail.com" method="POST">
+        <div class="form-group">
+          <label for="contact-name" class="form-label">Client Name / Organization</label>
+          <input type="text" id="contact-name" name="name" class="form-input" placeholder="Security Assessment Group" required>
+        </div>
+        
+        <div class="form-group">
+          <label for="contact-email" class="form-label">Secure Email Address</label>
+          <input type="email" id="contact-email" name="email" class="form-input" placeholder="audit@client.com" required>
+        </div>
+
+        <div class="form-group">
+          <label for="contact-msg" class="form-label">Brief Audit Scope / Details</label>
+          <textarea id="contact-msg" name="message" class="form-textarea" placeholder="List target domains, IP counts, or hardware requirements..." required></textarea>
+        </div>
+
+        <div class="submit-btn-wrapper">
+          <button type="submit" class="btn btn-primary" id="contact-submit-btn">Send Encrypted Message <i data-lucide="send" style="width: 16px; height: 16px;"></i></button>
+        </div>
+        
+        <div class="form-status" id="contact-form-status-msg"></div>
+      </form>
+    `;
+    
+    // Bind contact form submit handler immediately since new DOM elements were injected
+    initContactForm();
+  }
 }
 
 function renderSkills() {
@@ -1088,6 +1149,29 @@ function initAdminDataForms() {
       editingState.skills = null;
       const btn = addSkillForm.querySelector('button[type="submit"]');
       if (btn) btn.textContent = 'Add Skill';
+    });
+  }
+
+  // 6. CONFIGURE CONTACT FORM (Standard vs Google Form)
+  const configContactForm = document.getElementById('admin-config-contact-form');
+  const contactModeSelect = document.getElementById('contact-mode-select');
+  const googleUrlGroup = document.getElementById('google-form-url-group');
+
+  if (contactModeSelect && googleUrlGroup) {
+    contactModeSelect.addEventListener('change', () => {
+      googleUrlGroup.style.display = contactModeSelect.value === 'google' ? 'block' : 'none';
+    });
+  }
+
+  if (configContactForm) {
+    configContactForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const mode = document.getElementById('contact-mode-select').value;
+      const googleUrl = document.getElementById('contact-google-url').value;
+
+      localStorage.setItem('secops-contact-config', JSON.stringify({ mode, googleUrl }));
+      renderContactForm();
+      alert('✉️ Contact Form settings updated successfully!');
     });
   }
 }

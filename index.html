@@ -621,9 +621,26 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
                 <button type="submit" class="btn btn-primary btn-sm">Add Firewall Rule</button>
               </form>
             </div>
-            <div style="margin-top: 1.5rem; background: rgba(var(--accent-rgb), 0.05); border: 1px solid rgba(var(--accent-rgb), 0.15); padding: 1rem; border-radius: 8px; font-size: 0.9rem;">
-              <p style="margin: 0; color: var(--fg-secondary);">Session connection IP address:</p>
-              <h4 style="margin: 0.25rem 0 0 0; color: var(--accent);" id="acl-current-ip-display">Detecting...</h4>
+            <div style="margin-top: 1.5rem; background: rgba(255, 255, 255, 0.02); border: 1px solid rgba(255, 255, 255, 0.05); padding: 1.5rem; border-radius: 12px; font-size: 0.9rem;">
+              <h4 style="margin: 0 0 1.25rem 0; color: var(--accent); display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="cpu" style="width: 18px; height: 18px;"></i> Session Diagnostics</h4>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 1rem; margin-bottom: 0.5rem;">
+                <div>
+                  <p style="margin: 0; color: var(--fg-muted); font-size: 0.75rem; text-transform: uppercase;">Connection IP</p>
+                  <h5 style="margin: 0.2rem 0 0 0; color: hsl(var(--fg-bright)); font-family: monospace;" id="acl-current-ip-display">Detecting...</h5>
+                </div>
+                <div>
+                  <p style="margin: 0; color: var(--fg-muted); font-size: 0.75rem; text-transform: uppercase;">Operating System</p>
+                  <h5 style="margin: 0.2rem 0 0 0; color: hsl(var(--fg-bright));" id="acl-val-os">Detecting...</h5>
+                </div>
+                <div>
+                  <p style="margin: 0; color: var(--fg-muted); font-size: 0.75rem; text-transform: uppercase;">Detected Browser</p>
+                  <h5 style="margin: 0.2rem 0 0 0; color: hsl(var(--fg-bright));" id="acl-val-browser">Detecting...</h5>
+                </div>
+                <div>
+                  <p style="margin: 0; color: var(--fg-muted); font-size: 0.75rem; text-transform: uppercase;">Screen Resolution</p>
+                  <h5 style="margin: 0.2rem 0 0 0; color: hsl(var(--fg-bright)); font-family: monospace;" id="acl-val-res">Detecting...</h5>
+                </div>
+              </div>
             </div>
             <h3 style="margin-top: 1.5rem;">Access Control List (ACL Rules)</h3>
             <div class="admin-items-list" id="admin-acl-list">

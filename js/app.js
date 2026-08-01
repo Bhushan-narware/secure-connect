@@ -1471,6 +1471,18 @@ function initAdminDataForms() {
    POPULATE ADMIN EDIT/REMOVE LISTS
    ========================================== */
 function populateAdminPanelLists() {
+  // Populate Session System Diagnostics inside Admin Panel
+  const aclOsEl = document.getElementById('acl-val-os');
+  const aclBrowserEl = document.getElementById('acl-val-browser');
+  const aclResEl = document.getElementById('acl-val-res');
+  if (aclOsEl && aclBrowserEl && aclResEl) {
+    const info = getSystemInfo();
+    const parts = info.split(' (');
+    aclOsEl.textContent = parts[0];
+    aclBrowserEl.textContent = parts[1] ? parts[1].replace(')', '') : 'Unknown';
+    aclResEl.textContent = `${window.screen.width} x ${window.screen.height}`;
+  }
+
   // Experience list populate
   const expList = document.getElementById('admin-exp-list');
   if (expList) {

@@ -175,6 +175,9 @@ function initCVDataStores() {
     };
     localStorage.setItem('secops-contact-config', JSON.stringify(defaultContactConfig));
   }
+  if (!localStorage.getItem('secops-messages')) {
+    localStorage.setItem('secops-messages', JSON.stringify([]));
+  }
 }
 
 /* ==========================================
@@ -741,53 +744,37 @@ function initContactForm() {
   if (!form) return;
 
   form.addEventListener('submit', (e) => {
-    e.preventDefault(); // Intercept submit to try background AJAX
+    e.preventDefault();
     
     statusEl.className = 'form-status sending';
     statusEl.style.display = 'block';
-    statusEl.innerHTML = '<i class="lucide-loader-2 animate-spin"></i> Establishing secure tunnel... Sending packet...';
+    statusEl.innerHTML = '<i class="lucide-loader-2 animate-spin"></i> Establishing secure tunnel... Storing packet...';
     
     const name = document.getElementById('contact-name').value;
     const email = document.getElementById('contact-email').value;
     const msg = document.getElementById('contact-msg').value;
 
-    fetch('https://formsubmit.co/ajax/bhushannarware0911@gmail.com', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'Accept': 'application/json'
-      },
-      body: JSON.stringify({
+    setTimeout(() => {
+      const messages = JSON.parse(localStorage.getItem('secops-messages')) || [];
+      messages.unshift({
+        id: 'msg-' + Date.now(),
         name: name,
         email: email,
         message: msg,
-        _subject: `New SecOps Contact Message from ${name}`
-      })
-    })
-    .then(response => response.json())
-    .then(data => {
-      if (data.success === 'true' || data.success === true) {
-        statusEl.className = 'form-status success';
-        statusEl.innerHTML = '<i class="lucide-check-circle"></i> Handshake success! Message delivered to your inbox.';
-        form.reset();
-        
-        setTimeout(() => {
-          statusEl.style.display = 'none';
-        }, 6000);
-      } else {
-        throw new Error('FormSubmit AJAX failed');
-      }
-    })
-    .catch(err => {
-      console.warn("AJAX tunnel blocked. Falling back to traditional post transfer channel...", err);
-      statusEl.className = 'form-status sending';
-      statusEl.innerHTML = '<i class="lucide-loader-2 animate-spin"></i> Tunnel blocked! Redirecting to secure gateway...';
+        date: new Date().toLocaleString()
+      });
+      localStorage.setItem('secops-messages', JSON.stringify(messages));
+
+      statusEl.className = 'form-status success';
+      statusEl.innerHTML = '<i class="lucide-check-circle"></i> Handshake success! Message logged in SecOps Inbox.';
+      form.reset();
       
-      // Submit traditionally using form.submit() which bypasses this submit event listener
+      populateAdminPanelLists(); // Update the inbox view immediately
+      
       setTimeout(() => {
-        form.submit();
-      }, 1000);
-    });
+        statusEl.style.display = 'none';
+      }, 5000);
+    }, 1000);
   });
 }
 
@@ -1292,6 +1279,49 @@ function populateAdminPanelLists() {
     });
   }
 
+  // Inbox list populate
+  const inboxList = document.getElementById('admin-inbox-list');
+  if (inboxList) {
+    const messages = JSON.parse(localStorage.getItem('secops-messages')) || [];
+    inboxList.innerHTML = '';
+    
+    if (messages.length === 0) {
+      inboxList.innerHTML = '<p style="color:hsl(var(--fg-muted)); text-align:center; padding: 2rem;">Inbox is empty.</p>';
+    } else {
+      messages.forEach(m => {
+        const row = document.createElement('div');
+        row.className = 'admin-item-row';
+        row.style.cssText = 'flex-direction: column; align-items: flex-start; gap: 0.5rem; padding: 1rem;';
+        row.innerHTML = `
+          <div style="display: flex; justify-content: space-between; width: 100%; align-items: center;">
+            <h4 style="margin: 0; color: var(--accent);">${m.name}</h4>
+            <span style="font-size: 0.8rem; color: var(--fg-muted);">${m.date}</span>
+          </div>
+          <p style="font-size: 0.85rem; color: var(--fg-secondary); margin: 0;"><strong>Email:</strong> ${m.email}</p>
+          <p style="font-size: 0.9rem; color: var(--fg-bright); margin-top: 0.25rem; white-space: pre-wrap; background: rgba(0,0,0,0.15); border: 1px solid rgba(255,255,255,0.05); padding: 0.75rem; border-radius: 6px; width: 100%;">${m.message}</p>
+          <div style="display: flex; justify-content: flex-end; width: 100%; margin-top: 0.5rem;">
+            <button class="admin-delete-btn" data-id="${m.id}" data-type="message" style="background: rgba(239, 68, 68, 0.1); border: 1px solid rgba(239, 68, 68, 0.2); color: #ef4444; padding: 0.4rem 0.8rem; border-radius: 4px; cursor: pointer; display: flex; align-items: center; gap: 0.3rem;"><i data-lucide="trash-2" style="width: 14px; height: 14px;"></i> Delete</button>
+          </div>
+        `;
+        inboxList.appendChild(row);
+      });
+    }
+  }
+
+  // Clear Inbox button listener
+  const clearInboxBtn = document.getElementById('admin-clear-inbox-btn');
+  if (clearInboxBtn) {
+    // Clone button to remove previous event listeners
+    const newBtn = clearInboxBtn.cloneNode(true);
+    clearInboxBtn.parentNode.replaceChild(newBtn, clearInboxBtn);
+    newBtn.addEventListener('click', () => {
+      if (confirm('Are you sure you want to clear all inbox messages?')) {
+        localStorage.setItem('secops-messages', JSON.stringify([]));
+        populateAdminPanelLists();
+      }
+    });
+  }
+
   // Bind deletion buttons events
   document.querySelectorAll('.admin-delete-btn').forEach(btn => {
     btn.addEventListener('click', () => {
@@ -1339,6 +1369,10 @@ function deleteCVItem(id, type) {
     portals = portals.filter(p => p.id !== id);
     localStorage.setItem('secops-portals', JSON.stringify(portals));
     renderPortalLink();
+  } else if (type === 'message') {
+    let messages = JSON.parse(localStorage.getItem('secops-messages')) || [];
+    messages = messages.filter(m => m.id !== id);
+    localStorage.setItem('secops-messages', JSON.stringify(messages));
   }
 
   // If deleting the item currently being edited, reset the form

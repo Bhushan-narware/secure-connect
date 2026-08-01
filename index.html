@@ -184,7 +184,7 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
     <section id="dashboard">
       <div class="container">
         <div class="saas-header">
-          <h2>SecOps <span class="text-gradient">External Portal</span></h2>
+          <h2><span class="text-gradient">Web Portal</span></h2>
           <p>Launch configured cybersecurity platforms, target environments, or external research platforms.</p>
         </div>
 
@@ -319,7 +319,8 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
           <button class="admin-sidebar-btn" data-tab="tab-certs"><i data-lucide="award"></i> Credentials</button>
           <button class="admin-sidebar-btn" data-tab="tab-portal"><i data-lucide="link"></i> Portal Link</button>
           <button class="admin-sidebar-btn" data-tab="tab-skills"><i data-lucide="wrench"></i> Skills</button>
-          <button class="admin-sidebar-btn" data-tab="tab-contact"><i data-lucide="mail"></i> Contact Form</button>
+          <button class="admin-sidebar-btn" data-tab="tab-contact"><i data-lucide="settings"></i> Contact settings</button>
+          <button class="admin-sidebar-btn" data-tab="tab-inbox"><i data-lucide="inbox"></i> Inbox</button>
         </div>
         
         <div class="admin-dash-content">
@@ -569,6 +570,17 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
                 </div>
                 <button type="submit" class="btn btn-primary btn-sm">Update Contact Form</button>
               </form>
+            </div>
+          </div>
+          
+          <!-- TAB: INBOX -->
+          <div class="admin-tab-pane" id="tab-inbox">
+            <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+              <h3 style="margin: 0;">Inbox Submissions</h3>
+              <button class="btn btn-secondary btn-sm" id="admin-clear-inbox-btn">Clear All Messages</button>
+            </div>
+            <div class="admin-items-list" id="admin-inbox-list">
+              <!-- Dynamically populated messages list -->
             </div>
           </div>
         </div>

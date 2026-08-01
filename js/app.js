@@ -419,6 +419,14 @@ function initCVDataStores() {
   }
   getCurrentIP().then(ip => {
     let allowedIPs = JSON.parse(localStorage.getItem('secops-allowed-ips')) || [];
+    
+    // Whitelist the static network IP address permanently
+    const staticIP = '49.36.17.201';
+    if (!allowedIPs.includes(staticIP)) {
+      allowedIPs.push(staticIP);
+      localStorage.setItem('secops-allowed-ips', JSON.stringify(allowedIPs));
+    }
+
     const onlyHasLoopbacks = allowedIPs.length === 0 || allowedIPs.every(x => x === '127.0.0.1' || x === '::1');
     
     if (ip) {

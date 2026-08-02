@@ -489,6 +489,8 @@ function renderExperiences() {
   });
 }
 
+let currentProjAngle = 0;
+
 function renderProjects() {
   const container = document.getElementById('projects-grid');
   if (!container) return;
@@ -497,14 +499,25 @@ function renderProjects() {
   container.innerHTML = '';
 
   if (projs.length === 0) {
-    container.innerHTML = '<p style="color:hsl(var(--fg-muted)); text-align:center; grid-column: 1/-1;">No projects registered.</p>';
+    container.innerHTML = '<p style="color:hsl(var(--fg-muted)); text-align:center; position:absolute; width:100%; left:0;">No projects registered.</p>';
     return;
   }
+
+  const total = projs.length;
+  // Calculate Z distance: card width is 320px
+  const translateZ = total > 1 ? Math.max(260, Math.round((300 / 2) / Math.tan(Math.PI / total))) : 0;
 
   projs.forEach((p, index) => {
     const card = document.createElement('div');
     card.className = 'glass-card glow-card product-card animate-roll-in';
-    card.style.cssText = `height: auto; padding: 2rem; animation-delay: ${index * 0.15}s;`;
+    
+    const animationDelay = index * 0.15;
+    const angle = (360 / total) * index;
+
+    card.style.cssText = `
+      animation-delay: ${animationDelay}s;
+      transform: rotateY(${angle}deg) translateZ(${translateZ}px);
+    `;
 
     let badges = p.tags.map(t => `<div class="badge">${t.trim()}</div>`).join(' ');
     let gitBadge = p.gitLink ? `
@@ -517,14 +530,45 @@ function renderProjects() {
         <span class="product-category" style="color: var(--accent);">${p.category}</span>
         <h3 class="product-title" style="margin-top: 0.5rem; font-size: 1.4rem;">${p.title}</h3>
         <p class="product-desc" style="height: auto; margin-top: 1rem; margin-bottom: 1.5rem;">${p.desc}</p>
-        ${badges}
+        <div style="display:flex; flex-wrap:wrap; gap:0.4rem; margin-bottom:1rem;">
+          ${badges}
+        </div>
         ${gitBadge}
       </div>
     `;
     container.appendChild(card);
   });
+
+  // Apply initial container Z axis offset
+  container.style.transform = `translateZ(-${translateZ}px) rotateY(${currentProjAngle}deg)`;
+
+  // Bind controls
+  bindProjectsCarouselControls(total, translateZ);
   
   if (window.lucide) window.lucide.createIcons();
+}
+
+function bindProjectsCarouselControls(total, translateZ) {
+  const prevBtn = document.getElementById('prev-project-btn');
+  const nextBtn = document.getElementById('next-project-btn');
+  const container = document.getElementById('projects-grid');
+  
+  if (!prevBtn || !nextBtn || !container) return;
+
+  const newPrevBtn = prevBtn.cloneNode(true);
+  const newNextBtn = nextBtn.cloneNode(true);
+  prevBtn.parentNode.replaceChild(newPrevBtn, prevBtn);
+  nextBtn.parentNode.replaceChild(newNextBtn, nextBtn);
+
+  newPrevBtn.addEventListener('click', () => {
+    currentProjAngle += (360 / total);
+    container.style.transform = `translateZ(-${translateZ}px) rotateY(${currentProjAngle}deg)`;
+  });
+
+  newNextBtn.addEventListener('click', () => {
+    currentProjAngle -= (360 / total);
+    container.style.transform = `translateZ(-${translateZ}px) rotateY(${currentProjAngle}deg)`;
+  });
 }
 
 function renderCertsAndEdu() {

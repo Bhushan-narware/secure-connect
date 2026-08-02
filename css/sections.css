@@ -1829,3 +1829,43 @@ footer {
     display: none;
   }
 }
+
+/* 3D Rotary Carousel CSS */
+.carousel-3d-wrapper {
+  perspective: 1200px;
+  overflow: visible;
+}
+
+#projects-grid {
+  display: block; /* Override default grid */
+  position: relative;
+  width: 320px;
+  height: 320px;
+  margin: 0 auto;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+#projects-grid .product-card {
+  position: absolute;
+  width: 320px;
+  left: 0;
+  top: 0;
+  margin: 0;
+  backface-visibility: hidden;
+  transform-style: preserve-3d;
+  transition: transform 0.8s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.8s;
+}
+
+.carousel-control-btn {
+  background: var(--accent-muted);
+  border: 1px solid hsl(var(--accent-h) var(--accent-s) var(--accent-l) / 0.15);
+  color: var(--accent);
+  transition: all var(--transition-fast);
+}
+
+.carousel-control-btn:hover {
+  background: var(--accent);
+  color: hsl(var(--bg-dark));
+  box-shadow: 0 0 15px var(--accent-glow);
+}

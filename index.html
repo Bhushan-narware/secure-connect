@@ -139,18 +139,28 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
       </div>
     </section>
 
-    <!-- ==========================================
-         PROJECTS SECTION
-         ========================================== -->
-    <section id="projects">
+    <section id="projects" style="overflow: hidden;">
       <div class="container">
         <div class="saas-header">
           <h2>Security <span class="text-gradient">Projects Portfolio</span></h2>
           <p>Open-source tools, scripts, and local configurations built to resolve scanning, credential, and privacy issues.</p>
         </div>
 
-        <div class="products-grid" id="projects-grid">
-          <!-- Dynamically rendered by JS -->
+        <!-- 3D Rotary Carousel Wrapper -->
+        <div class="carousel-3d-wrapper" style="position: relative; width: 100%; height: 380px; display: flex; align-items: center; justify-content: center; margin-top: 3rem; margin-bottom: 2rem;">
+          <div id="projects-grid">
+            <!-- Dynamically rendered by JS -->
+          </div>
+        </div>
+
+        <!-- Carousel Controls -->
+        <div class="carousel-3d-controls" style="display: flex; justify-content: center; gap: 1.5rem; margin-top: 1rem;">
+          <button class="btn carousel-control-btn" id="prev-project-btn" aria-label="Previous Project" style="width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer;">
+            <i data-lucide="chevron-left" style="width: 20px; height: 20px;"></i>
+          </button>
+          <button class="btn carousel-control-btn" id="next-project-btn" aria-label="Next Project" style="width: 44px; height: 44px; border-radius: 50%; display: flex; align-items: center; justify-content: center; padding: 0; cursor: pointer;">
+            <i data-lucide="chevron-right" style="width: 20px; height: 20px;"></i>
+          </button>
         </div>
       </div>
     </section>

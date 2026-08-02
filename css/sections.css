@@ -278,32 +278,36 @@ header.scrolled {
 }
 
 .hero-floating-card {
-  padding: 2rem;
+  padding: 2.5rem;
   position: relative;
   overflow: hidden;
-}
-
-.hero-card-header {
-  display: flex;
-  gap: 0.4rem;
-  margin-bottom: 1.5rem;
-}
-
-.hero-card-dot {
-  width: 12px;
-  height: 12px;
   border-radius: 50%;
-  background: rgba(255, 255, 255, 0.1);
+  width: 320px;
+  height: 320px;
+  margin: 0 auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(var(--accent-rgb), 0.2);
+  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.05) 0%, rgba(14, 14, 17, 0.75) 80%);
+  animation: rotateRound 20s linear infinite, pulseGlow 3s infinite ease-in-out;
 }
 
-.hero-card-dot:nth-child(1) { background: #ef4444; }
-.hero-card-dot:nth-child(2) { background: #eab308; }
-.hero-card-dot:nth-child(3) { background: #22c55e; }
+@keyframes rotateRound {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
 
 .hero-code {
   font-family: 'Fira Code', monospace;
-  font-size: 0.85rem;
+  font-size: 0.8rem;
   color: hsl(var(--fg-secondary));
+  text-align: center;
+  transform: rotate(0deg); /* Counter-rotate logic could be added but rotating matrix text is a rich cybersecurity radar look */
 }
 
 .hero-code span.tag { color: #f472b6; }

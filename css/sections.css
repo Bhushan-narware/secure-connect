@@ -282,15 +282,42 @@ header.scrolled {
   position: relative;
   overflow: hidden;
   border-radius: 50%;
-  width: 320px;
-  height: 320px;
+  width: 325px;
+  height: 325px;
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  border: 1px solid rgba(var(--accent-rgb), 0.2);
-  background: radial-gradient(circle, rgba(var(--accent-rgb), 0.05) 0%, rgba(14, 14, 17, 0.75) 80%);
-  animation: rotateRound 20s linear infinite, pulseGlow 3s infinite ease-in-out;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  background: rgba(14, 14, 17, 0.85);
+  box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 25px var(--accent-glow);
+}
+
+/* Rotating scanning dashed ring */
+.hero-floating-card::before {
+  content: '';
+  position: absolute;
+  top: 8px; left: 8px; right: 8px; bottom: 8px;
+  border-radius: 50%;
+  border: 2px dashed var(--accent);
+  opacity: 0.2;
+  animation: rotateRound 30s linear infinite;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Fast rotating scanning indicator arc */
+.hero-floating-card::after {
+  content: '';
+  position: absolute;
+  top: 16px; left: 16px; right: 16px; bottom: 16px;
+  border-radius: 50%;
+  border: 2px solid transparent;
+  border-top-color: var(--accent);
+  opacity: 0.5;
+  animation: rotateRound 5s linear infinite;
+  pointer-events: none;
+  z-index: 1;
 }
 
 @keyframes rotateRound {
@@ -304,10 +331,13 @@ header.scrolled {
 
 .hero-code {
   font-family: 'Fira Code', monospace;
-  font-size: 0.8rem;
+  font-size: 0.76rem;
+  line-height: 1.45;
   color: hsl(var(--fg-secondary));
-  text-align: center;
-  transform: rotate(0deg); /* Counter-rotate logic could be added but rotating matrix text is a rich cybersecurity radar look */
+  text-align: left;
+  position: relative;
+  z-index: 2;
+  pointer-events: auto;
 }
 
 .hero-code span.tag { color: #f472b6; }

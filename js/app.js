@@ -443,9 +443,6 @@ function renderPortalLink() {
         <i data-lucide="${icon}" style="width: 32px; height: 32px; color: ${brandColor};"></i>
       </div>
       <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; font-weight:700;">${appTitle}</h3>
-      <p style="color: var(--fg-muted); font-size: 0.85rem; margin-bottom: 1rem; max-width: 260px; line-height:1.4;">
-        ${appDesc}
-      </p>
       <button class="btn btn-secondary btn-sm" style="margin-top: 1rem; pointer-events: none; border-color: rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); display: inline-flex; align-items: center; gap: 0.4rem;">
         <span>Explore Links</span> <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
       </button>
@@ -529,8 +526,7 @@ function showPortalSubpage(title, icon, color, bgColor, items) {
     <div style="margin: 0 auto 1.5rem; background: ${bgColor}; border: 1px solid ${color}; width: 68px; height: 68px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px ${bgColor};">
       <i data-lucide="${icon}" style="width: 34px; height: 34px; color: ${color};"></i>
     </div>
-    <h3 style="font-size: 1.6rem; margin-bottom: 0.5rem; font-weight:800; color: hsl(var(--fg-bright));">${title}</h3>
-    <p style="color: var(--fg-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">Select a shortcut link node to launch external session.</p>
+    <h3 style="font-size: 1.6rem; margin-bottom: 1.5rem; font-weight:800; color: hsl(var(--fg-bright));">${title}</h3>
   `;
 
   // Links list

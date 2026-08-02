@@ -457,22 +457,29 @@ function renderExperiences() {
 
   exps.forEach(exp => {
     const item = document.createElement('div');
-    item.className = 'timeline-item';
+    item.className = 'timeline-item glass-card glow-card timeline-interactive-card';
+    item.style.cssText = 'padding: 2rem; margin-bottom: 2.5rem; transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow var(--transition-normal); overflow: hidden;';
     
     let bulletsHTML = '';
     if (exp.bullets && exp.bullets.length > 0) {
-      bulletsHTML = `<ul class="timeline-body">` + 
+      bulletsHTML = `<ul class="timeline-body" style="margin-top: 1rem;">` + 
         exp.bullets.map(b => `<li>${b.trim()}</li>`).join('') + 
         `</ul>`;
     }
 
     item.innerHTML = `
-      <div class="timeline-header">
+      <div class="hero-card-header" style="margin-bottom: 1.25rem; border-bottom: 1px solid rgba(255,255,255,0.05); padding-bottom: 0.75rem; display: flex; gap: 0.4rem;">
+        <span class="hero-card-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #ef4444;"></span>
+        <span class="hero-card-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #eab308;"></span>
+        <span class="hero-card-dot" style="width: 10px; height: 10px; border-radius: 50%; background: #22c55e;"></span>
+        <span style="font-family: monospace; font-size: 0.75rem; color: hsl(var(--fg-muted)); margin-left: 0.5rem;">secops-shell ~ experience_${exp.id.replace('exp-', '')}</span>
+      </div>
+      <div class="timeline-header" style="display: flex; justify-content: space-between; align-items: baseline; flex-wrap: wrap; gap: 0.5rem; margin-bottom: 1rem;">
         <div>
-          <span class="timeline-role">${exp.role}</span> - 
-          <span class="timeline-company">${exp.company}</span>
+          <span class="timeline-role" style="font-size: 1.3rem; font-weight: 700; color: hsl(var(--fg-bright));">${exp.role}</span> - 
+          <span class="timeline-company" style="color: var(--accent-text); font-weight: 600;">${exp.company}</span>
         </div>
-        <span class="timeline-date">${exp.date}</span>
+        <span class="timeline-date" style="font-size: 0.85rem; color: hsl(var(--fg-muted)); font-weight: 500;">${exp.date}</span>
       </div>
       ${bulletsHTML}
     `;
@@ -794,8 +801,9 @@ function initCanvasParticles() {
     mouse.y = null;
   });
 
-  const cards = document.querySelectorAll('.glow-card');
   document.addEventListener('mousemove', (e) => {
+    // 1. Dynamic glow-card mouse coordinate tracking
+    const cards = document.querySelectorAll('.glow-card');
     cards.forEach(card => {
       const rect = card.getBoundingClientRect();
       const x = e.clientX - rect.left;
@@ -803,7 +811,44 @@ function initCanvasParticles() {
       card.style.setProperty('--mouse-x', `${x}px`);
       card.style.setProperty('--mouse-y', `${y}px`);
     });
+
+    // 2. 3D Tilt interactive mouse tracking on experience cards
+    const tiltCards = document.querySelectorAll('.timeline-interactive-card');
+    tiltCards.forEach(card => {
+      const rect = card.getBoundingClientRect();
+      const cardWidth = rect.width;
+      const cardHeight = rect.height;
+      
+      const mouseX = e.clientX - rect.left;
+      const mouseY = e.clientY - rect.top;
+      
+      if (mouseX >= 0 && mouseX <= cardWidth && mouseY >= 0 && mouseY <= cardHeight) {
+        // Calculate offset from center (-0.5 to 0.5)
+        const normX = (mouseX / cardWidth) - 0.5;
+        const normY = (mouseY / cardHeight) - 0.5;
+        
+        // Tilt degrees (max 10 degrees tilt)
+        const rotX = -normY * 12;
+        const rotY = normX * 12;
+        
+        card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02, 1.02, 1.02)`;
+        card.style.boxShadow = `0 15px 35px rgba(0,0,0,0.45), 0 0 25px var(--accent-glow)`;
+      } else {
+        // Reset state
+        card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+        card.style.boxShadow = '';
+      }
+    });
   });
+
+  // Global reset fallback on leave
+  document.addEventListener('mouseleave', () => {
+    const tiltCards = document.querySelectorAll('.timeline-interactive-card');
+    tiltCards.forEach(card => {
+      card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
+      card.style.boxShadow = '';
+    });
+  }, true);
 
   animate();
 }

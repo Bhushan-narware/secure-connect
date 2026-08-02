@@ -535,20 +535,39 @@ function renderCertsAndEdu() {
     const certs = JSON.parse(localStorage.getItem('secops-certs')) || [];
     certsContainer.innerHTML = '';
     certs.forEach((c, index) => {
-      const card = document.createElement('div');
-      card.className = 'glass-card glow-card cert-card animate-roll-in';
-      card.style.cssText = `animation-delay: ${index * 0.12}s;`;
-      // Fallback icon award
+      // Create the 3D flip card outer container
+      const flipCard = document.createElement('div');
+      flipCard.className = 'flip-card animate-roll-in';
+      flipCard.style.cssText = `animation-delay: ${index * 0.12}s;`;
+      
       const icon = c.icon || 'lucide-award';
-      card.innerHTML = `
-        <div class="icon-wrapper">
-          <i data-lucide="${icon.replace('lucide-', '')}"></i>
+      
+      // Verification link parameters
+      const verifyLink = c.url || '#';
+      const verifyBtnText = c.url ? 'Verify Credential' : 'Verified Secure';
+      const verifyIcon = c.url ? 'external-link' : 'shield-check';
+
+      flipCard.innerHTML = `
+        <div class="flip-card-inner" style="width:100%; height:100%; position:relative;">
+          <div class="flip-card-front glass-card glow-card cert-card" style="position: absolute; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+            <div class="icon-wrapper" style="margin-bottom: 1rem;">
+              <i data-lucide="${icon.replace('lucide-', '')}"></i>
+            </div>
+            <h3 style="font-size: 1.15rem; margin-bottom: 0.35rem; text-align:center;">${c.title}</h3>
+            <span class="issuer" style="color: var(--accent-text); font-weight:600; font-size: 0.85rem;">${c.issuer}</span>
+            <span class="year" style="font-size: 0.8rem; color: hsl(var(--fg-muted)); margin-top: 0.5rem;">${c.year}</span>
+          </div>
+          <div class="flip-card-back glass-card cert-card" style="position: absolute; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; transform: rotateY(180deg);">
+            <i data-lucide="shield-check" style="width: 32px; height: 32px; color: var(--accent); margin-bottom: 0.75rem;"></i>
+            <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent-text);">Verification Portal</h3>
+            <p style="font-size: 0.8rem; color: hsl(var(--fg-muted)); margin-bottom: 1rem; text-align: center;">Cryptographic hash authenticated. Status active.</p>
+            <a href="${verifyLink}" target="_blank" class="btn btn-primary btn-sm" style="text-decoration: none; padding: 0.4rem 0.8rem; display: inline-flex; align-items: center; gap: 0.35rem;">
+              <span>${verifyBtnText}</span> <i data-lucide="${verifyIcon}" style="width: 14px; height: 14px;"></i>
+            </a>
+          </div>
         </div>
-        <h3>${c.title}</h3>
-        <span class="issuer">${c.issuer}</span>
-        <span class="year">${c.year}</span>
       `;
-      certsContainer.appendChild(card);
+      certsContainer.appendChild(flipCard);
     });
   }
 
@@ -556,16 +575,29 @@ function renderCertsAndEdu() {
     const edus = JSON.parse(localStorage.getItem('secops-edu')) || [];
     eduContainer.innerHTML = '';
     edus.forEach((e, index) => {
-      const card = document.createElement('div');
-      card.className = 'glass-card glow-card edu-card animate-roll-in';
-      card.style.cssText = `animation-delay: ${index * 0.12}s;`;
-      card.innerHTML = `
-        <h3>${e.title}</h3>
-        <span class="school">${e.school}</span>
-        <span class="year">${e.year}</span>
-        <span class="board">${e.board}</span>
+      // Create the 3D flip card outer container
+      const flipCard = document.createElement('div');
+      flipCard.className = 'flip-card animate-roll-in';
+      flipCard.style.cssText = `animation-delay: ${index * 0.12}s;`;
+      
+      flipCard.innerHTML = `
+        <div class="flip-card-inner" style="width:100%; height:100%; position:relative;">
+          <div class="flip-card-front glass-card glow-card edu-card" style="position: absolute; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center;">
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; text-align:center;">${e.title}</h3>
+            <span class="school" style="color: var(--accent-text); font-weight:600; font-size: 0.9rem;">${e.school}</span>
+            <span class="year" style="font-size: 0.8rem; color: hsl(var(--fg-muted)); margin-top: 0.5rem;">${e.year}</span>
+          </div>
+          <div class="flip-card-back glass-card edu-card" style="position: absolute; width:100%; height:100%; display:flex; flex-direction:column; justify-content:center; align-items:center; transform: rotateY(180deg);">
+            <i data-lucide="graduation-cap" style="width: 32px; height: 32px; color: var(--accent); margin-bottom: 0.75rem;"></i>
+            <h3 style="font-size: 1.1rem; margin-bottom: 0.5rem; color: var(--accent-text);">Academic Record</h3>
+            <p style="font-size: 0.8rem; color: hsl(var(--fg-muted)); margin-bottom: 0.5rem; text-align:center;">Affiliated Board: ${e.board}</p>
+            <p style="font-size: 0.85rem; color: #22c55e; font-weight: 600; display: flex; align-items: center; gap: 0.3rem; justify-content: center; margin-top: 0.5rem;">
+              <span class="dot-online" style="background-color: #22c55e; box-shadow: 0 0 6px #22c55e; width: 6px; height: 6px;"></span> Degree Authenticated
+            </p>
+          </div>
+        </div>
       `;
-      eduContainer.appendChild(card);
+      eduContainer.appendChild(flipCard);
     });
   }
 

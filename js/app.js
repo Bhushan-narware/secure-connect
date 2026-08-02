@@ -831,10 +831,12 @@ function initCanvasParticles() {
         const rotX = -normY * 12;
         const rotY = normX * 12;
         
+        card.style.transition = 'transform 0.05s ease-out, box-shadow var(--transition-normal)';
         card.style.transform = `perspective(1000px) rotateX(${rotX}deg) rotateY(${rotY}deg) scale3d(1.02, 1.02, 1.02)`;
         card.style.boxShadow = `0 15px 35px rgba(0,0,0,0.45), 0 0 25px var(--accent-glow)`;
       } else {
         // Reset state
+        card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow var(--transition-normal)';
         card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
         card.style.boxShadow = '';
       }
@@ -845,6 +847,7 @@ function initCanvasParticles() {
   document.addEventListener('mouseleave', () => {
     const tiltCards = document.querySelectorAll('.timeline-interactive-card');
     tiltCards.forEach(card => {
+      card.style.transition = 'transform 0.5s cubic-bezier(0.16, 1, 0.3, 1), box-shadow var(--transition-normal)';
       card.style.transform = `perspective(1000px) rotateX(0deg) rotateY(0deg) scale3d(1, 1, 1)`;
       card.style.boxShadow = '';
     });

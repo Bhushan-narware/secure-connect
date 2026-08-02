@@ -39,6 +39,11 @@
   padding: 0;
 }
 
+/* Global Easing Transitions for Interactive Elements */
+a, button, input, textarea, select, .glass-card, .timeline-item, .badge {
+  transition: all var(--transition-normal);
+}
+
 html {
   scroll-behavior: smooth;
   font-size: 16px;

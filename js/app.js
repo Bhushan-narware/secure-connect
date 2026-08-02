@@ -458,8 +458,8 @@ function renderExperiences() {
 
   exps.forEach((exp, index) => {
     const item = document.createElement('div');
-    item.className = 'timeline-item glass-card glow-card timeline-interactive-card animate-stack-reveal';
-    item.style.cssText = `padding: 2rem; margin-bottom: 2.5rem; transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow var(--transition-normal); overflow: hidden; animation-delay: ${index * 0.28}s; z-index: ${20 - index}; position: relative;`;
+    item.className = 'timeline-item glass-card glow-card timeline-interactive-card animate-roll-in';
+    item.style.cssText = `padding: 2rem; margin-bottom: 2.5rem; transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow var(--transition-normal); overflow: hidden; animation-delay: ${index * 0.15}s;`;
     
     let bulletsHTML = '';
     if (exp.bullets && exp.bullets.length > 0) {

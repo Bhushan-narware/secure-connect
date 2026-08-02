@@ -227,6 +227,19 @@ function initCVDataStores() {
   if (!localStorage.getItem('secops-messages')) {
     localStorage.setItem('secops-messages', JSON.stringify([]));
   }
+  if (!localStorage.getItem('secops-firewall-rules')) {
+    const defaultRules = {
+      wafInjection: true,
+      wafAuth: true,
+      wafSsrf: false,
+      wafCrypto: true,
+      dosRate: true,
+      dosSyn: false,
+      dosProxy: false,
+      dosSlow: true
+    };
+    localStorage.setItem('secops-firewall-rules', JSON.stringify(defaultRules));
+  }
   getCurrentIP().then(ip => {
     let allowedIPs = JSON.parse(localStorage.getItem('secops-allowed-ips')) || [];
     
@@ -1007,8 +1020,38 @@ function initAdminSystem() {
     });
   });
 
+  // Bind WAF and DDoS rules toggles
+  bindFirewallRulesToggles();
+
   // Forms dynamic insertions listeners
   initAdminDataForms();
+}
+
+function bindFirewallRulesToggles() {
+  const rules = JSON.parse(localStorage.getItem('secops-firewall-rules')) || {};
+  
+  const mappings = {
+    'rule-waf-injection': 'wafInjection',
+    'rule-waf-auth': 'wafAuth',
+    'rule-waf-ssrf': 'wafSsrf',
+    'rule-waf-crypto': 'wafCrypto',
+    'rule-dos-rate': 'dosRate',
+    'rule-dos-syn': 'dosSyn',
+    'rule-dos-proxy': 'dosProxy',
+    'rule-dos-slow': 'dosSlow'
+  };
+
+  for (const [id, key] of Object.entries(mappings)) {
+    const el = document.getElementById(id);
+    if (el) {
+      el.checked = !!rules[key];
+      el.addEventListener('change', () => {
+        const currentRules = JSON.parse(localStorage.getItem('secops-firewall-rules')) || {};
+        currentRules[key] = el.checked;
+        localStorage.setItem('secops-firewall-rules', JSON.stringify(currentRules));
+      });
+    }
+  }
 }
 
 /* ==========================================

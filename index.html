@@ -622,6 +622,76 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
             <div class="admin-items-list" id="admin-acl-list">
               <!-- Dynamically populated IP rows -->
             </div>
+
+            <!-- OWASP TOP 10 WAF SHIELDS -->
+            <div class="admin-add-form" style="margin-top: 1.5rem;">
+              <h3 style="display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="shield-alert" style="width: 18px; height: 18px; color: var(--accent);"></i> OWASP Top 10 WAF Shields</h3>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                <label class="rule-switch-label" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer;">
+                  <div>
+                    <span style="display: block; font-size: 0.9rem; color: hsl(var(--fg-bright)); font-weight: 600;">Injection (SQLi/XSS) Shield</span>
+                    <span style="font-size: 0.75rem; color: hsl(var(--fg-muted));">Sanitize inputs & query strings</span>
+                  </div>
+                  <input type="checkbox" id="rule-waf-injection" class="rule-toggle-checkbox" style="accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer;">
+                </label>
+                <label class="rule-switch-label" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer;">
+                  <div>
+                    <span style="display: block; font-size: 0.9rem; color: hsl(var(--fg-bright)); font-weight: 600;">Broken Access Guard</span>
+                    <span style="font-size: 0.75rem; color: hsl(var(--fg-muted));">Enforce strict ACL check routing</span>
+                  </div>
+                  <input type="checkbox" id="rule-waf-auth" class="rule-toggle-checkbox" style="accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer;">
+                </label>
+                <label class="rule-switch-label" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer;">
+                  <div>
+                    <span style="display: block; font-size: 0.9rem; color: hsl(var(--fg-bright)); font-weight: 600;">SSRF Protection</span>
+                    <span style="font-size: 0.75rem; color: hsl(var(--fg-muted));">Block outbound loopback queries</span>
+                  </div>
+                  <input type="checkbox" id="rule-waf-ssrf" class="rule-toggle-checkbox" style="accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer;">
+                </label>
+                <label class="rule-switch-label" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer;">
+                  <div>
+                    <span style="display: block; font-size: 0.9rem; color: hsl(var(--fg-bright)); font-weight: 600;">Cryptographic Guard</span>
+                    <span style="font-size: 0.75rem; color: hsl(var(--fg-muted));">Enforce TLS 1.3 & strong ciphers</span>
+                  </div>
+                  <input type="checkbox" id="rule-waf-crypto" class="rule-toggle-checkbox" style="accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer;">
+                </label>
+              </div>
+            </div>
+
+            <!-- DOS / DDOS MITIGATION RULES -->
+            <div class="admin-add-form" style="margin-top: 1.5rem;">
+              <h3 style="display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="shield-check" style="width: 18px; height: 18px; color: var(--accent);"></i> DoS / DDoS Mitigation Rules</h3>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 1rem; margin-top: 1rem;">
+                <label class="rule-switch-label" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer;">
+                  <div>
+                    <span style="display: block; font-size: 0.9rem; color: hsl(var(--fg-bright)); font-weight: 600;">Rate Limiter (HTTP Flood)</span>
+                    <span style="font-size: 0.75rem; color: hsl(var(--fg-muted));">Limit request burst sizes</span>
+                  </div>
+                  <input type="checkbox" id="rule-dos-rate" class="rule-toggle-checkbox" style="accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer;">
+                </label>
+                <label class="rule-switch-label" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer;">
+                  <div>
+                    <span style="display: block; font-size: 0.9rem; color: hsl(var(--fg-bright)); font-weight: 600;">SYN Flood Guard</span>
+                    <span style="font-size: 0.75rem; color: hsl(var(--fg-muted));">TCP handshake intercept rules</span>
+                  </div>
+                  <input type="checkbox" id="rule-dos-syn" class="rule-toggle-checkbox" style="accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer;">
+                </label>
+                <label class="rule-switch-label" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer;">
+                  <div>
+                    <span style="display: block; font-size: 0.9rem; color: hsl(var(--fg-bright)); font-weight: 600;">Tor & Proxy IP Block</span>
+                    <span style="font-size: 0.75rem; color: hsl(var(--fg-muted));">Drop connection request pools</span>
+                  </div>
+                  <input type="checkbox" id="rule-dos-proxy" class="rule-toggle-checkbox" style="accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer;">
+                </label>
+                <label class="rule-switch-label" style="display: flex; justify-content: space-between; align-items: center; background: rgba(255,255,255,0.02); padding: 0.75rem 1rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.05); cursor: pointer;">
+                  <div>
+                    <span style="display: block; font-size: 0.9rem; color: hsl(var(--fg-bright)); font-weight: 600;">Slowloris Connection Shield</span>
+                    <span style="font-size: 0.75rem; color: hsl(var(--fg-muted));">Timeout slow header streams</span>
+                  </div>
+                  <input type="checkbox" id="rule-dos-slow" class="rule-toggle-checkbox" style="accent-color: var(--accent); width: 18px; height: 18px; cursor: pointer;">
+                </label>
+              </div>
+            </div>
           </div>
         </div>
       </div>

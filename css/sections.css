@@ -1432,35 +1432,7 @@ footer {
 }
 
 /* Floating Admin Access Button */
-.admin-floating-trigger {
-  position: fixed;
-  bottom: 2rem;
-  left: 2rem;
-  z-index: 99;
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: rgba(14, 14, 17, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: hsl(var(--fg-bright));
-  cursor: pointer;
-  display: none; /* Only visible when logged in or activated */
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  transition: all var(--transition-fast);
-}
 
-.admin-floating-trigger:hover {
-  border-color: var(--accent);
-  transform: scale(1.05);
-}
-
-.admin-floating-trigger.logged-in {
-  display: flex;
-  border-color: #22c55e;
-  box-shadow: 0 0 15px rgba(34, 197, 94, 0.3);
-}
 
 /* Full screen Admin Control Center Dashboard */
 .admin-dashboard-overlay {

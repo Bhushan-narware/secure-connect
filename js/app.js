@@ -352,9 +352,10 @@ function renderSkills() {
     return;
   }
 
-  skills.forEach(s => {
+  skills.forEach((s, index) => {
     const item = document.createElement('div');
-    item.className = 'skill-item';
+    item.className = 'skill-item animate-roll-in';
+    item.style.cssText = `animation-delay: ${index * 0.1}s;`;
     item.innerHTML = `
       <div class="skill-info">
         <span class="skill-name">${s.name}</span>
@@ -401,7 +402,7 @@ function renderPortalLink() {
     return;
   }
 
-  portals.forEach(p => {
+  portals.forEach((p, index) => {
     let icon = 'globe';
     let brandColor = 'var(--accent)';
     let bgColor = 'rgba(var(--accent-rgb), 0.1)';
@@ -423,8 +424,8 @@ function renderPortalLink() {
     }
 
     const card = document.createElement('div');
-    card.className = 'glass-card glow-card product-card';
-    card.style.cssText = 'padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: auto;';
+    card.className = 'glass-card glow-card product-card animate-roll-in';
+    card.style.cssText = `padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: auto; animation-delay: ${index * 0.15}s;`;
     card.innerHTML = `
       <div class="icon-wrapper" style="margin: 0 auto 1.5rem; background: ${bgColor}; border: 1px solid ${brandColor}; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
         <i data-lucide="${icon}" style="width: 30px; height: 30px; color: ${brandColor};"></i>
@@ -455,10 +456,10 @@ function renderExperiences() {
     return;
   }
 
-  exps.forEach(exp => {
+  exps.forEach((exp, index) => {
     const item = document.createElement('div');
-    item.className = 'timeline-item glass-card glow-card timeline-interactive-card';
-    item.style.cssText = 'padding: 2rem; margin-bottom: 2.5rem; transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow var(--transition-normal); overflow: hidden;';
+    item.className = 'timeline-item glass-card glow-card timeline-interactive-card animate-roll-in';
+    item.style.cssText = `padding: 2rem; margin-bottom: 2.5rem; transition: transform 0.15s cubic-bezier(0.25, 0.46, 0.45, 0.94), box-shadow var(--transition-normal); overflow: hidden; animation-delay: ${index * 0.15}s;`;
     
     let bulletsHTML = '';
     if (exp.bullets && exp.bullets.length > 0) {
@@ -499,11 +500,10 @@ function renderProjects() {
     return;
   }
 
-  projs.forEach(p => {
+  projs.forEach((p, index) => {
     const card = document.createElement('div');
-    card.className = 'glass-card glow-card product-card';
-    card.style.height = 'auto';
-    card.style.padding = '2rem';
+    card.className = 'glass-card glow-card product-card animate-roll-in';
+    card.style.cssText = `height: auto; padding: 2rem; animation-delay: ${index * 0.15}s;`;
 
     let badges = p.tags.map(t => `<div class="badge">${t.trim()}</div>`).join(' ');
     let gitBadge = p.gitLink ? `
@@ -533,9 +533,10 @@ function renderCertsAndEdu() {
   if (certsContainer) {
     const certs = JSON.parse(localStorage.getItem('secops-certs')) || [];
     certsContainer.innerHTML = '';
-    certs.forEach(c => {
+    certs.forEach((c, index) => {
       const card = document.createElement('div');
-      card.className = 'glass-card glow-card cert-card';
+      card.className = 'glass-card glow-card cert-card animate-roll-in';
+      card.style.cssText = `animation-delay: ${index * 0.12}s;`;
       // Fallback icon award
       const icon = c.icon || 'lucide-award';
       card.innerHTML = `
@@ -553,9 +554,10 @@ function renderCertsAndEdu() {
   if (eduContainer) {
     const edus = JSON.parse(localStorage.getItem('secops-edu')) || [];
     eduContainer.innerHTML = '';
-    edus.forEach(e => {
+    edus.forEach((e, index) => {
       const card = document.createElement('div');
-      card.className = 'glass-card glow-card edu-card';
+      card.className = 'glass-card glow-card edu-card animate-roll-in';
+      card.style.cssText = `animation-delay: ${index * 0.12}s;`;
       card.innerHTML = `
         <h3>${e.title}</h3>
         <span class="school">${e.school}</span>

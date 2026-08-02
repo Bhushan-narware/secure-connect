@@ -1751,3 +1751,11 @@ footer {
     display: none;
   }
 }
+
+/* Portal Shortcut Button Hover Animation */
+.portal-shortcut-btn:hover {
+  background: rgba(255, 255, 255, 0.06) !important;
+  border-color: var(--accent) !important;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 15px var(--accent-glow);
+}

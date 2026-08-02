@@ -402,44 +402,67 @@ function renderPortalLink() {
     return;
   }
 
-  portals.forEach((p, index) => {
-    let icon = 'globe';
-    let brandColor = 'var(--accent)';
-    let bgColor = 'rgba(var(--accent-rgb), 0.1)';
-    let btnText = 'Launch Site';
-    let btnColorStyle = '';
-
-    if (p.type === 'whatsapp') {
-      icon = 'message-circle';
-      brandColor = '#22c55e';
-      bgColor = 'rgba(34, 197, 94, 0.1)';
-      btnText = 'Open WhatsApp';
-      btnColorStyle = 'background: #22c55e; border-color: #22c55e;';
-    } else if (p.type === 'telegram') {
-      icon = 'send';
-      brandColor = '#3b82f6';
-      bgColor = 'rgba(59, 130, 246, 0.1)';
-      btnText = 'Open Telegram';
-      btnColorStyle = 'background: #3b82f6; border-color: #3b82f6;';
+  // Group portals by type/application
+  const grouped = {};
+  portals.forEach(p => {
+    const type = p.type || 'website';
+    if (!grouped[type]) {
+      grouped[type] = [];
     }
+    grouped[type].push(p);
+  });
 
+  let index = 0;
+  for (const [type, items] of Object.entries(grouped)) {
     const card = document.createElement('div');
     card.className = 'glass-card glow-card product-card animate-roll-in';
     card.style.cssText = `padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: auto; animation-delay: ${index * 0.15}s;`;
+    
+    let icon = 'globe';
+    let brandColor = 'var(--accent)';
+    let bgColor = 'rgba(var(--accent-rgb), 0.1)';
+    let appTitle = 'Research & Code';
+    let appDesc = 'Explore external code repositories, OSINT automation platforms, and secure web tools.';
+
+    if (type === 'whatsapp') {
+      icon = 'message-circle';
+      brandColor = '#22c55e';
+      bgColor = 'rgba(34, 197, 94, 0.1)';
+      appTitle = 'WhatsApp Portals';
+      appDesc = 'Direct communication lines for instant SecOps query remediation and chat nodes.';
+    } else if (type === 'telegram') {
+      icon = 'send';
+      brandColor = '#3b82f6';
+      bgColor = 'rgba(59, 130, 246, 0.1)';
+      appTitle = 'Telegram Feeds';
+      appDesc = 'Vulnerability assessment channels, feeds, and real-time security alerts.';
+    }
+
+    let linksHTML = `<div class="portal-links-list" style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; width: 100%;">`;
+    items.forEach(item => {
+      let btnStyle = `text-decoration: none; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; width: 100%; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); padding: 0.6rem 1rem; border-radius: 8px; color: hsl(var(--fg-primary)); font-size: 0.85rem; font-weight: 600; transition: all var(--transition-fast);`;
+      linksHTML += `
+        <a href="${item.url}" target="_blank" class="portal-shortcut-btn" style="${btnStyle}">
+          <span style="display:flex; align-items:center; gap:0.4rem; pointer-events:none;"><i data-lucide="${icon}" style="width:14px; height:14px; color:${brandColor};"></i> ${item.title}</span>
+          <i data-lucide="arrow-up-right" style="width: 14px; height: 14px; opacity:0.6; pointer-events:none;"></i>
+        </a>
+      `;
+    });
+    linksHTML += `</div>`;
+
     card.innerHTML = `
-      <div class="icon-wrapper" style="margin: 0 auto 1.5rem; background: ${bgColor}; border: 1px solid ${brandColor}; width: 60px; height: 60px; border-radius: 50%; display: flex; align-items: center; justify-content: center;">
-        <i data-lucide="${icon}" style="width: 30px; height: 30px; color: ${brandColor};"></i>
+      <div class="icon-wrapper" style="margin: 0 auto 1.25rem; background: ${bgColor}; border: 1px solid ${brandColor}; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px ${bgColor};">
+        <i data-lucide="${icon}" style="width: 32px; height: 32px; color: ${brandColor};"></i>
       </div>
-      <h3 style="font-size: 1.4rem; margin-bottom: 0.5rem;">${p.title}</h3>
-      <p style="color: var(--fg-muted); font-size: 0.9rem; margin-bottom: 1.5rem; max-width: 250px;">
-        ${p.desc}
+      <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; font-weight:700;">${appTitle}</h3>
+      <p style="color: var(--fg-muted); font-size: 0.85rem; margin-bottom: 1rem; max-width: 260px; line-height:1.4;">
+        ${appDesc}
       </p>
-      <a href="${p.url}" target="_blank" class="btn btn-primary btn-sm" style="text-decoration: none; ${btnColorStyle} display: inline-flex; align-items: center; gap: 0.4rem;">
-        <span>${btnText}</span> <i data-lucide="arrow-up-right" style="width: 14px; height: 14px;"></i>
-      </a>
+      ${linksHTML}
     `;
     container.appendChild(card);
-  });
+    index++;
+  }
 
   if (window.lucide) window.lucide.createIcons();
 }

@@ -44,7 +44,8 @@ const editingState = {
   projects: null,
   certs: null,
   skills: null,
-  portal: null
+  portal: null,
+  resources: null
 };
 
 /* ==========================================
@@ -160,6 +161,23 @@ const defaultPortalLinks = [
   }
 ];
 
+const defaultResources = [
+  {
+    id: 'res-1',
+    type: 'Google Drive',
+    title: 'Google Drive SecOps Shared Folder',
+    desc: 'Shared cloud directory containing vulnerability checklists, security audit questionnaires, and penetration testing template reports.',
+    url: 'https://drive.google.com/drive/folders/your-placeholder-id'
+  },
+  {
+    id: 'res-2',
+    type: 'Website Link',
+    title: 'OWASP Top 10 API Security Risks Reference',
+    desc: 'Official cheat sheet and threat model references mapping core REST/GraphQL vulnerability vectors and secure code mitigations.',
+    url: 'https://owasp.org/www-project-api-security/'
+  }
+];
+
 async function getCurrentIP() {
   try {
     const res = await fetch('https://api.ipify.org?format=json');
@@ -213,9 +231,13 @@ function initCVDataStores() {
       experience: true,
       projects: true,
       credentials: true,
-      dashboard: true
+      dashboard: true,
+      resources: true
     };
     localStorage.setItem('secops-sections', JSON.stringify(defaultSections));
+  }
+  if (!localStorage.getItem('secops-resources')) {
+    localStorage.setItem('secops-resources', JSON.stringify(defaultResources));
   }
   if (!localStorage.getItem('secops-contact-config')) {
     const defaultContactConfig = {
@@ -285,6 +307,7 @@ function renderAllCVContent() {
   renderCertsAndEdu();
   renderPortalLink();
   renderContactForm();
+  renderResources();
 }
 
 function renderContactForm() {
@@ -570,6 +593,201 @@ function showPortalSubpage(title, icon, color, bgColor, items) {
   });
 
   // Style hover states inside links dynamically
+  const links = modal.querySelectorAll('.subpage-link-item');
+  links.forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      link.style.borderColor = color;
+      link.style.background = `rgba(255, 255, 255, 0.05)`;
+      link.style.transform = 'translateX(4px)';
+      const extIcon = link.querySelector('[data-lucide="external-link"]');
+      if (extIcon) extIcon.style.opacity = '1';
+    });
+    link.style.transition = 'all 0.25s ease';
+    link.addEventListener('mouseleave', () => {
+      link.style.borderColor = 'rgba(255,255,255,0.06)';
+      link.style.background = 'rgba(255,255,255,0.02)';
+      link.style.transform = 'translateX(0)';
+      const extIcon = link.querySelector('[data-lucide="external-link"]');
+      if (extIcon) extIcon.style.opacity = '0.5';
+    });
+  });
+}
+
+
+function renderResources() {
+  const container = document.getElementById('resources-grid');
+  if (!container) return;
+
+  const resources = JSON.parse(localStorage.getItem('secops-resources')) || [];
+  container.innerHTML = '';
+
+  if (resources.length === 0) {
+    container.innerHTML = '<p style="color:hsl(var(--fg-muted)); text-align:center; grid-column: 1 / -1;">No resources registered.</p>';
+    return;
+  }
+
+  // Group resources by type/category
+  const grouped = {};
+  resources.forEach(r => {
+    const type = r.type || 'website';
+    if (!grouped[type]) {
+      grouped[type] = [];
+    }
+    grouped[type].push(r);
+  });
+
+  let index = 0;
+  for (const [type, items] of Object.entries(grouped)) {
+    const card = document.createElement('div');
+    card.className = 'glass-card glow-card product-card animate-roll-in';
+    card.style.cssText = `padding: 2.5rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: auto; cursor: pointer; transition: all var(--transition-medium); animation-delay: ${index * 0.15}s;`;
+
+    // Dynamic icon and highlight selection based on key terms in category name
+    let icon = 'globe';
+    let brandColor = 'var(--accent)';
+    let bgColor = 'rgba(var(--accent-rgb), 0.1)';
+    const lowerType = type.toLowerCase();
+
+    if (lowerType.includes('drive')) {
+      icon = 'hard-drive';
+      brandColor = '#eab308';
+      bgColor = 'rgba(234, 179, 8, 0.1)';
+    } else if (lowerType.includes('github') || lowerType.includes('code') || lowerType.includes('git')) {
+      icon = 'github';
+      brandColor = '#38bdf8';
+      bgColor = 'rgba(56, 189, 248, 0.1)';
+    } else if (lowerType.includes('pdf') || lowerType.includes('doc') || lowerType.includes('file')) {
+      icon = 'file-text';
+      brandColor = '#ec4899';
+      bgColor = 'rgba(236, 72, 153, 0.1)';
+    }
+
+    card.innerHTML = `
+      <div class="icon-wrapper" style="margin: 0 auto 1.25rem; background: ${bgColor}; border: 1px solid ${brandColor}; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px ${bgColor}; transition: transform 0.3s ease;">
+        <i data-lucide="${icon}" style="width: 32px; height: 32px; color: ${brandColor};"></i>
+      </div>
+      <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; font-weight:700;">${type}</h3>
+      <button class="btn btn-secondary btn-sm" style="margin-top: 1rem; pointer-events: none; border-color: rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); display: inline-flex; align-items: center; gap: 0.4rem;">
+        <span>Access Resources</span> <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+      </button>
+    `;
+
+    card.addEventListener('click', () => {
+      showResourcesSubpage(type, icon, brandColor, bgColor, items);
+    });
+
+    // Hover effect on card elements
+    card.addEventListener('mouseenter', () => {
+      const w = card.querySelector('.icon-wrapper');
+      if (w) w.style.transform = 'scale(1.1)';
+    });
+    card.addEventListener('mouseleave', () => {
+      const w = card.querySelector('.icon-wrapper');
+      if (w) w.style.transform = 'scale(1)';
+    });
+
+    container.appendChild(card);
+    index++;
+  }
+
+  if (window.lucide) window.lucide.createIcons();
+}
+
+function showResourcesSubpage(title, icon, color, bgColor, items) {
+  const overlay = document.createElement('div');
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 12, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  `;
+
+  const modal = document.createElement('div');
+  modal.className = 'glass-card';
+  modal.style.cssText = `
+    width: 90%;
+    max-width: 480px;
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(20, 20, 25, 0.75);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+    position: relative;
+    transform: translateY(30px);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    text-align: center;
+  `;
+
+  const closeBtn = document.createElement('button');
+  closeBtn.style.cssText = `
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: transparent;
+    border: none;
+    color: hsl(var(--fg-muted));
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0.25rem;
+  `;
+  closeBtn.innerHTML = `<i data-lucide="x" style="width: 20px; height: 20px;"></i>`;
+
+  const headerHTML = `
+    <div style="margin: 0 auto 1.5rem; background: ${bgColor}; border: 1px solid ${color}; width: 68px; height: 68px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px ${bgColor};">
+      <i data-lucide="${icon}" style="width: 34px; height: 34px; color: ${color};"></i>
+    </div>
+    <h3 style="font-size: 1.6rem; margin-bottom: 1.5rem; font-weight:800; color: hsl(var(--fg-bright));">${title}</h3>
+  `;
+
+  let linksHTML = `<div class="subpage-links-list" style="display: flex; flex-direction: column; gap: 1rem; width: 100%; text-align: left; max-height: 350px; overflow-y: auto; padding-right: 0.5rem;">`;
+  items.forEach(item => {
+    linksHTML += `
+      <a href="${item.url}" target="_blank" class="subpage-link-item" style="text-decoration: none; display: flex; flex-direction: column; gap: 0.35rem; padding: 1rem 1.25rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); color: hsl(var(--fg-bright)); transition: all 0.25s ease;">
+        <span style="display:flex; align-items:center; justify-content:space-between; width:100%; font-weight: 700; font-size: 0.95rem; color:${color};">
+          <span><i data-lucide="file-text" style="width:14px; height:14px; display:inline-block; vertical-align:middle; margin-right:4px;"></i> ${item.title}</span>
+          <i data-lucide="external-link" style="width: 14px; height: 14px; opacity:0.5; transition: transform 0.2s;"></i>
+        </span>
+        <p style="color: var(--fg-muted); font-size: 0.8rem; margin: 0; line-height: 1.4;">${item.desc}</p>
+      </a>
+    `;
+  });
+  linksHTML += `</div>`;
+
+  modal.innerHTML = headerHTML + linksHTML;
+  modal.appendChild(closeBtn);
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+
+  if (window.lucide) window.lucide.createIcons();
+
+  requestAnimationFrame(() => {
+    overlay.style.opacity = '1';
+    modal.style.transform = 'translateY(0)';
+  });
+
+  const closeHandler = () => {
+    overlay.style.opacity = '0';
+    modal.style.transform = 'translateY(30px)';
+    setTimeout(() => {
+      overlay.remove();
+    }, 300);
+  };
+
+  closeBtn.addEventListener('click', closeHandler);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeHandler();
+  });
+
   const links = modal.querySelectorAll('.subpage-link-item');
   links.forEach(link => {
     link.addEventListener('mouseenter', () => {
@@ -1517,6 +1735,49 @@ function initAdminDataForms() {
       alert(`🔐 Firewall access rule added for IP ${newIP} successfully!`);
     });
   }
+
+  // 5.5. ADD/UPDATE RESOURCE
+  const addResForm = document.getElementById('admin-add-res-form');
+  if (addResForm) {
+    addResForm.addEventListener('submit', (e) => {
+      e.preventDefault();
+      const type = document.getElementById('res-add-type').value;
+      const title = document.getElementById('res-add-title').value;
+      const url = document.getElementById('res-add-url').value;
+      const desc = document.getElementById('res-add-desc').value;
+
+      const resources = JSON.parse(localStorage.getItem('secops-resources')) || [];
+
+      if (editingState.resources) {
+        const item = resources.find(r => r.id === editingState.resources);
+        if (item) {
+          item.type = type;
+          item.title = title;
+          item.url = url;
+          item.desc = desc;
+        }
+        editingState.resources = null;
+        const btn = addResForm.querySelector('button[type="submit"]');
+        if (btn) btn.textContent = 'Add Resource';
+      } else {
+        resources.unshift({
+          id: 'res-' + Date.now(),
+          type, title, url, desc
+        });
+      }
+
+      localStorage.setItem('secops-resources', JSON.stringify(resources));
+      addResForm.reset();
+      populateAdminPanelLists();
+      renderResources();
+    });
+
+    addResForm.addEventListener('reset', () => {
+      editingState.resources = null;
+      const btn = addResForm.querySelector('button[type="submit"]');
+      if (btn) btn.textContent = 'Add Resource';
+    });
+  }
 }
 
 /* ==========================================
@@ -1644,6 +1905,28 @@ function populateAdminPanelLists() {
         </div>
       `;
       adminPortalsList.appendChild(row);
+    });
+  }
+
+  // Resources list populate
+  const adminResList = document.getElementById('admin-res-list');
+  if (adminResList) {
+    const resources = JSON.parse(localStorage.getItem('secops-resources')) || [];
+    adminResList.innerHTML = '';
+    resources.forEach(r => {
+      const row = document.createElement('div');
+      row.className = 'admin-item-row';
+      row.innerHTML = `
+        <div class="admin-item-details">
+          <h4>${r.title}</h4>
+          <p>${r.type} • ${r.url}</p>
+        </div>
+        <div style="display: flex; gap: 0.5rem; align-items: center;">
+          <button class="admin-edit-btn" data-id="${r.id}" data-type="resources" style="background: rgba(var(--accent-rgb), 0.1); border: 1px solid rgba(var(--accent-rgb), 0.2); color: var(--accent); padding: 0.5rem; border-radius: 4px; cursor: pointer; transition: all 0.2s ease;"><i data-lucide="pencil" style="width: 16px; height: 16px; display: block;"></i></button>
+          <button class="admin-delete-btn" data-id="${r.id}" data-type="resources"><i data-lucide="trash-2"></i></button>
+        </div>
+      `;
+      adminResList.appendChild(row);
     });
   }
 
@@ -1783,6 +2066,11 @@ function deleteCVItem(id, type) {
     portals = portals.filter(p => p.id !== id);
     localStorage.setItem('secops-portals', JSON.stringify(portals));
     renderPortalLink();
+  } else if (type === 'resources') {
+    let resources = JSON.parse(localStorage.getItem('secops-resources')) || [];
+    resources = resources.filter(r => r.id !== id);
+    localStorage.setItem('secops-resources', JSON.stringify(resources));
+    renderResources();
   } else if (type === 'message') {
     let messages = JSON.parse(localStorage.getItem('secops-messages')) || [];
     messages = messages.filter(m => m.id !== id);
@@ -1801,6 +2089,7 @@ function deleteCVItem(id, type) {
     else if (type === 'certs') formEl = document.getElementById('admin-add-cert-form');
     else if (type === 'skills') formEl = document.getElementById('admin-add-skill-form');
     else if (type === 'portal') formEl = document.getElementById('admin-add-portal-form');
+    else if (type === 'resources') formEl = document.getElementById('admin-add-res-form');
     if (formEl) formEl.reset();
   }
 
@@ -1889,6 +2178,22 @@ function editCVItem(id, type) {
       const btn = form.querySelector('button[type="submit"]');
       if (btn) btn.textContent = 'Update Portal Link';
     }
+  } else if (type === 'resources') {
+    const resources = JSON.parse(localStorage.getItem('secops-resources')) || [];
+    const item = resources.find(r => r.id === id);
+    if (!item) return;
+
+    editingState.resources = id;
+    document.getElementById('res-add-type').value = item.type;
+    document.getElementById('res-add-title').value = item.title;
+    document.getElementById('res-add-url').value = item.url;
+    document.getElementById('res-add-desc').value = item.desc;
+
+    const form = document.getElementById('admin-add-res-form');
+    if (form) {
+      const btn = form.querySelector('button[type="submit"]');
+      if (btn) btn.textContent = 'Update Resource';
+    }
   }
 }
 
@@ -1909,6 +2214,7 @@ function applySectionVisibility() {
     else if (sectionId === 'projects') linkId = 'link-projects';
     else if (sectionId === 'credentials') linkId = 'link-credentials';
     else if (sectionId === 'dashboard') linkId = 'link-dashboard';
+    else if (sectionId === 'resources') linkId = 'link-resources';
 
     const navLink = document.getElementById(linkId);
 

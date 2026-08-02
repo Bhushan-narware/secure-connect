@@ -38,6 +38,7 @@
           <li><a href="#projects" id="link-projects">Projects</a></li>
           <li><a href="#credentials" id="link-credentials">Credentials</a></li>
           <li><a href="#dashboard" id="link-dashboard">Web Portal</a></li>
+          <li><a href="#resources" id="link-resources">Resources</a></li>
           <li><a href="#contact" id="link-contact">Contact</a></li>
         </ul>
       </nav>
@@ -191,8 +192,21 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
         </div>
       </div>
     </section>
+    <!-- ==========================================
+         RESOURCES SECTION
+         ========================================== -->
+    <section id="resources">
+      <div class="container">
+        <div class="saas-header">
+          <h2>SecOps <span class="text-gradient">Resources Hub</span></h2>
+          <p>Access shared Google Drive files, templates, guides, and external links.</p>
+        </div>
 
-    <!-- Shop Section Removed -->
+        <div class="products-grid" id="resources-grid" style="margin-top: 3rem;">
+          <!-- Dynamically populated by JS (Google Drive and Web Links) -->
+        </div>
+      </div>
+    </section>
 
     <!-- ==========================================
          CONTACT FORM SECTION
@@ -300,6 +314,7 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
           <button class="admin-sidebar-btn" data-tab="tab-projects"><i data-lucide="folder-git-2"></i> Projects</button>
           <button class="admin-sidebar-btn" data-tab="tab-certs"><i data-lucide="award"></i> Credentials</button>
           <button class="admin-sidebar-btn" data-tab="tab-portal"><i data-lucide="link"></i> Portal Link</button>
+          <button class="admin-sidebar-btn" data-tab="tab-resources"><i data-lucide="folder-open"></i> Resources</button>
           <button class="admin-sidebar-btn" data-tab="tab-contact"><i data-lucide="settings"></i> Contact settings</button>
         </div>
         
@@ -356,6 +371,16 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
                 </div>
                 <label class="switch">
                   <input type="checkbox" class="section-toggle-checkbox" data-section="dashboard" checked>
+                  <span class="slider-toggle"></span>
+                </label>
+              </div>
+              <div class="toggle-item-card">
+                <div class="toggle-info">
+                  <h4>Resources Hub</h4>
+                  <p>Shared files and web resource links of any type</p>
+                </div>
+                <label class="switch">
+                  <input type="checkbox" class="section-toggle-checkbox" data-section="resources" checked>
                   <span class="slider-toggle"></span>
                 </label>
               </div>
@@ -566,6 +591,41 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
                 </div>
                 <button type="submit" class="btn btn-primary btn-sm">Update Contact Form</button>
               </form>
+            </div>
+          </div>
+          
+          <!-- TAB: RESOURCES -->
+          <div class="admin-tab-pane" id="tab-resources">
+            <div class="admin-add-form">
+              <h3 id="admin-res-form-title">Register New Resource</h3>
+              <form id="admin-add-res-form">
+                <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1rem; margin-bottom: 1rem;">
+                  <div>
+                    <label for="res-add-type" class="form-label">Resource Type / Category</label>
+                    <input type="text" id="res-add-type" class="form-input" required placeholder="e.g. Google Drive, GitHub, PDF, Cheatsheet">
+                  </div>
+                  <div>
+                    <label for="res-add-title" class="form-label">Resource Title</label>
+                    <input type="text" id="res-add-title" class="form-input" required placeholder="e.g. Secure Coding Checklist">
+                  </div>
+                </div>
+                <div style="margin-bottom: 1rem;">
+                  <label for="res-add-url" class="form-label">Resource URL</label>
+                  <input type="url" id="res-add-url" class="form-input" required placeholder="https://...">
+                </div>
+                <div style="margin-bottom: 1rem;">
+                  <label for="res-add-desc" class="form-label">Short Description</label>
+                  <textarea id="res-add-desc" class="form-input" rows="3" required placeholder="Briefly describe what this resource contains..."></textarea>
+                </div>
+                <div style="display: flex; gap: 1rem;">
+                  <button type="submit" class="btn btn-primary btn-sm">Add Resource</button>
+                  <button type="reset" class="btn btn-secondary btn-sm">Reset Form</button>
+                </div>
+              </form>
+            </div>
+            <h3>Active Resources</h3>
+            <div class="admin-items-list" id="admin-res-list">
+              <!-- Dynamically populated -->
             </div>
           </div>
           

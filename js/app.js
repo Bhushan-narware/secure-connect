@@ -416,7 +416,7 @@ function renderPortalLink() {
   for (const [type, items] of Object.entries(grouped)) {
     const card = document.createElement('div');
     card.className = 'glass-card glow-card product-card animate-roll-in';
-    card.style.cssText = `padding: 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: auto; animation-delay: ${index * 0.15}s;`;
+    card.style.cssText = `padding: 2.5rem 2rem; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; height: auto; cursor: pointer; transition: all var(--transition-medium); animation-delay: ${index * 0.15}s;`;
     
     let icon = 'globe';
     let brandColor = 'var(--accent)';
@@ -438,34 +438,162 @@ function renderPortalLink() {
       appDesc = 'Vulnerability assessment channels, feeds, and real-time security alerts.';
     }
 
-    let linksHTML = `<div class="portal-links-list" style="margin-top: 1.5rem; display: flex; flex-direction: column; gap: 0.6rem; width: 100%;">`;
-    items.forEach(item => {
-      let btnStyle = `text-decoration: none; display: flex; justify-content: space-between; align-items: center; gap: 0.5rem; width: 100%; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); padding: 0.6rem 1rem; border-radius: 8px; color: hsl(var(--fg-primary)); font-size: 0.85rem; font-weight: 600; transition: all var(--transition-fast);`;
-      linksHTML += `
-        <a href="${item.url}" target="_blank" class="portal-shortcut-btn" style="${btnStyle}">
-          <span style="display:flex; align-items:center; gap:0.4rem; pointer-events:none;"><i data-lucide="${icon}" style="width:14px; height:14px; color:${brandColor};"></i> ${item.title}</span>
-          <i data-lucide="arrow-up-right" style="width: 14px; height: 14px; opacity:0.6; pointer-events:none;"></i>
-        </a>
-      `;
-    });
-    linksHTML += `</div>`;
-
     card.innerHTML = `
-      <div class="icon-wrapper" style="margin: 0 auto 1.25rem; background: ${bgColor}; border: 1px solid ${brandColor}; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px ${bgColor};">
+      <div class="icon-wrapper" style="margin: 0 auto 1.25rem; background: ${bgColor}; border: 1px solid ${brandColor}; width: 64px; height: 64px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 15px ${bgColor}; transition: transform 0.3s ease;">
         <i data-lucide="${icon}" style="width: 32px; height: 32px; color: ${brandColor};"></i>
       </div>
       <h3 style="font-size: 1.35rem; margin-bottom: 0.5rem; font-weight:700;">${appTitle}</h3>
       <p style="color: var(--fg-muted); font-size: 0.85rem; margin-bottom: 1rem; max-width: 260px; line-height:1.4;">
         ${appDesc}
       </p>
-      ${linksHTML}
+      <button class="btn btn-secondary btn-sm" style="margin-top: 1rem; pointer-events: none; border-color: rgba(255,255,255,0.08); background: rgba(255,255,255,0.02); display: inline-flex; align-items: center; gap: 0.4rem;">
+        <span>Explore Links</span> <i data-lucide="arrow-right" style="width: 14px; height: 14px;"></i>
+      </button>
     `;
+
+    card.addEventListener('click', () => {
+      showPortalSubpage(appTitle, icon, brandColor, bgColor, items);
+    });
+
+    // Hover effect on card elements
+    card.addEventListener('mouseenter', () => {
+      const w = card.querySelector('.icon-wrapper');
+      if (w) w.style.transform = 'scale(1.1)';
+    });
+    card.addEventListener('mouseleave', () => {
+      const w = card.querySelector('.icon-wrapper');
+      if (w) w.style.transform = 'scale(1)';
+    });
+
     container.appendChild(card);
     index++;
   }
 
   if (window.lucide) window.lucide.createIcons();
 }
+
+function showPortalSubpage(title, icon, color, bgColor, items) {
+  // Create overlay container
+  const overlay = document.createElement('div');
+  overlay.style.cssText = `
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(10, 10, 12, 0.94);
+    backdrop-filter: blur(16px);
+    -webkit-backdrop-filter: blur(16px);
+    z-index: 9999;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+  `;
+
+  // Create modal container
+  const modal = document.createElement('div');
+  modal.className = 'glass-card';
+  modal.style.cssText = `
+    width: 90%;
+    max-width: 480px;
+    padding: 2.5rem 2rem;
+    border-radius: 20px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background: rgba(20, 20, 25, 0.75);
+    box-shadow: 0 25px 60px rgba(0, 0, 0, 0.7);
+    position: relative;
+    transform: translateY(30px);
+    transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+    text-align: center;
+  `;
+
+  // Close button
+  const closeBtn = document.createElement('button');
+  closeBtn.style.cssText = `
+    position: absolute;
+    top: 1.25rem;
+    right: 1.25rem;
+    background: transparent;
+    border: none;
+    color: hsl(var(--fg-muted));
+    cursor: pointer;
+    transition: color 0.2s;
+    padding: 0.25rem;
+  `;
+  closeBtn.innerHTML = `<i data-lucide="x" style="width: 20px; height: 20px;"></i>`;
+
+  // Header block
+  const headerHTML = `
+    <div style="margin: 0 auto 1.5rem; background: ${bgColor}; border: 1px solid ${color}; width: 68px; height: 68px; border-radius: 50%; display: flex; align-items: center; justify-content: center; box-shadow: 0 0 20px ${bgColor};">
+      <i data-lucide="${icon}" style="width: 34px; height: 34px; color: ${color};"></i>
+    </div>
+    <h3 style="font-size: 1.6rem; margin-bottom: 0.5rem; font-weight:800; color: hsl(var(--fg-bright));">${title}</h3>
+    <p style="color: var(--fg-muted); font-size: 0.85rem; margin-bottom: 1.5rem;">Select a shortcut link node to launch external session.</p>
+  `;
+
+  // Links list
+  let linksHTML = `<div class="subpage-links-list" style="display: flex; flex-direction: column; gap: 0.75rem; width: 100%; text-align: left;">`;
+  items.forEach(item => {
+    linksHTML += `
+      <a href="${item.url}" target="_blank" class="subpage-link-item" style="text-decoration: none; display: flex; justify-content: space-between; align-items: center; padding: 0.9rem 1.2rem; border-radius: 10px; border: 1px solid rgba(255,255,255,0.06); background: rgba(255,255,255,0.02); color: hsl(var(--fg-bright)); font-weight: 600; font-size: 0.9rem; transition: all 0.2s ease;">
+        <span style="display:flex; align-items:center; gap:0.5rem;"><i data-lucide="link" style="width:14px; height:14px; opacity:0.5;"></i> ${item.title}</span>
+        <i data-lucide="external-link" style="width: 14px; height: 14px; opacity:0.5; transition: transform 0.2s;"></i>
+      </a>
+    `;
+  });
+  linksHTML += `</div>`;
+
+  modal.innerHTML = headerHTML + linksHTML;
+  modal.appendChild(closeBtn);
+  overlay.appendChild(modal);
+  document.body.appendChild(overlay);
+
+  // Trigger icons rendering
+  if (window.lucide) window.lucide.createIcons();
+
+  // Trigger anim open
+  requestAnimationFrame(() => {
+    overlay.style.opacity = '1';
+    modal.style.transform = 'translateY(0)';
+  });
+
+  // Actions
+  const closeHandler = () => {
+    overlay.style.opacity = '0';
+    modal.style.transform = 'translateY(30px)';
+    setTimeout(() => {
+      overlay.remove();
+    }, 300);
+  };
+
+  closeBtn.addEventListener('click', closeHandler);
+  overlay.addEventListener('click', (e) => {
+    if (e.target === overlay) closeHandler();
+  });
+
+  // Style hover states inside links dynamically
+  const links = modal.querySelectorAll('.subpage-link-item');
+  links.forEach(link => {
+    link.addEventListener('mouseenter', () => {
+      link.style.borderColor = color;
+      link.style.background = `rgba(255, 255, 255, 0.05)`;
+      link.style.transform = 'translateX(4px)';
+      const extIcon = link.querySelector('[data-lucide="external-link"]');
+      if (extIcon) extIcon.style.opacity = '1';
+    });
+    link.style.transition = 'all 0.25s ease';
+    link.addEventListener('mouseleave', () => {
+      link.style.borderColor = 'rgba(255,255,255,0.06)';
+      link.style.background = 'rgba(255,255,255,0.02)';
+      link.style.transform = 'translateX(0)';
+      const extIcon = link.querySelector('[data-lucide="external-link"]');
+      if (extIcon) extIcon.style.opacity = '0.5';
+    });
+  });
+}
+
 
 function renderExperiences() {
   const container = document.getElementById('experience-timeline');

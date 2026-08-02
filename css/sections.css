@@ -101,58 +101,8 @@ header.scrolled {
 
 
 /* ==========================================
-   FLOATING ACCENT CONFIGURATOR
+   THEME ACCENT COLOR OPTIONS
    ========================================== */
-.theme-configurator {
-  position: fixed;
-  bottom: 2rem;
-  right: 2rem;
-  z-index: 99;
-}
-
-.configurator-btn {
-  width: 50px;
-  height: 50px;
-  border-radius: 50%;
-  background: rgba(14, 14, 17, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.1);
-  color: hsl(var(--fg-bright));
-  cursor: pointer;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.5);
-  transition: transform var(--transition-fast), border-color var(--transition-fast);
-}
-
-.configurator-btn:hover {
-  transform: rotate(45deg) scale(1.05);
-  border-color: var(--accent);
-}
-
-.configurator-panel {
-  position: absolute;
-  bottom: 60px;
-  right: 0;
-  width: 200px;
-  padding: 1.25rem;
-  border-radius: 12px;
-  display: none;
-  flex-direction: column;
-  gap: 0.8rem;
-  animation: fadeIn 0.3s ease forwards;
-}
-
-.configurator-panel.active {
-  display: flex;
-}
-
-.configurator-panel h4 {
-  font-size: 0.85rem;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  color: hsl(var(--fg-secondary));
-}
 
 .color-options {
   display: flex;

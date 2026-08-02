@@ -245,23 +245,7 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
     </section>
   </main>
 
-  <!-- ==========================================
-       FLOATING CONFIGURATOR (THEME SWITCHER)
-       ========================================== -->
-  <div class="theme-configurator" id="accent-theme-settings">
-    <div class="glass-card configurator-panel" id="accent-theme-panel">
-      <h4>Accent Accent</h4>
-      <div class="color-options">
-        <button class="color-bubble active" data-theme="purple" aria-label="Purple theme color" id="theme-bubble-purple"></button>
-        <button class="color-bubble" data-theme="blue" aria-label="Blue theme color" id="theme-bubble-blue"></button>
-        <button class="color-bubble" data-theme="green" aria-label="Green theme color" id="theme-bubble-green"></button>
-        <button class="color-bubble" data-theme="amber" aria-label="Amber theme color" id="theme-bubble-amber"></button>
-      </div>
-    </div>
-    <button class="configurator-btn" aria-label="Open settings panel" id="accent-theme-toggle">
-      <i data-lucide="settings"></i>
-    </button>
-  </div>
+
 
   <!-- ==========================================
        SHOPPING CART DRAWER
@@ -379,6 +363,22 @@ target_recon(<span class="val">"192.168.1.1"</span>, <span class="val">80</span>
                 </label>
               </div>
               <!-- Shop Toggle Removed -->
+            </div>
+
+            <!-- Dynamic Theme Accent Configurator -->
+            <div class="admin-add-form" style="margin-top: 2rem;">
+              <h3 style="margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+                <i data-lucide="palette" style="color: var(--accent); width: 18px; height: 18px;"></i> Global Theme Accent
+              </h3>
+              <p style="color: hsl(var(--fg-secondary)); font-size: 0.85rem; margin-bottom: 1.5rem;">
+                Select the neon color highlight theme for the entire public portfolio.
+              </p>
+              <div class="color-options">
+                <button class="color-bubble active" data-theme="purple" aria-label="Purple theme color" id="theme-bubble-purple"></button>
+                <button class="color-bubble" data-theme="blue" aria-label="Blue theme color" id="theme-bubble-blue"></button>
+                <button class="color-bubble" data-theme="green" aria-label="Green theme color" id="theme-bubble-green"></button>
+                <button class="color-bubble" data-theme="amber" aria-label="Amber theme color" id="theme-bubble-amber"></button>
+              </div>
             </div>
           </div>
 

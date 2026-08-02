@@ -281,58 +281,65 @@ header.scrolled {
   padding: 2.5rem;
   position: relative;
   overflow: hidden;
-  border-radius: 50%;
-  width: 325px;
-  height: 325px;
+  border-radius: 16px;
+  width: 100%;
+  max-width: 480px;
   margin: 0 auto;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   border: 1px solid rgba(255, 255, 255, 0.05);
   background: rgba(14, 14, 17, 0.85);
   box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.5), 0 0 25px var(--accent-glow);
 }
 
-/* Rotating scanning dashed ring */
-.hero-floating-card::before {
-  content: '';
-  position: absolute;
-  top: 8px; left: 8px; right: 8px; bottom: 8px;
-  border-radius: 50%;
-  border: 2px dashed var(--accent);
-  opacity: 0.2;
-  animation: rotateRound 30s linear infinite;
-  pointer-events: none;
-  z-index: 1;
+.hero-card-header {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  margin-bottom: 1.5rem;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  padding-bottom: 0.75rem;
 }
 
-/* Fast rotating scanning indicator arc */
+.hero-card-dot {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  display: inline-block;
+}
+
+.hero-card-dot:nth-child(1) { background: #ef4444; }
+.hero-card-dot:nth-child(2) { background: #eab308; }
+.hero-card-dot:nth-child(3) { background: #22c55e; }
+
+/* Glowing Vertical Laser Scanning line */
 .hero-floating-card::after {
   content: '';
   position: absolute;
-  top: 16px; left: 16px; right: 16px; bottom: 16px;
-  border-radius: 50%;
-  border: 2px solid transparent;
-  border-top-color: var(--accent);
-  opacity: 0.5;
-  animation: rotateRound 5s linear infinite;
-  pointer-events: none;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 10%, var(--accent) 50%, transparent 90%);
+  box-shadow: 0 0 10px var(--accent);
+  animation: scanSweep 4s ease-in-out infinite;
   z-index: 1;
+  pointer-events: none;
 }
 
-@keyframes rotateRound {
-  from {
-    transform: rotate(0deg);
+@keyframes scanSweep {
+  0% {
+    top: 0%;
   }
-  to {
-    transform: rotate(360deg);
+  50% {
+    top: 100%;
+  }
+  100% {
+    top: 0%;
   }
 }
 
 .hero-code {
   font-family: 'Fira Code', monospace;
-  font-size: 0.76rem;
-  line-height: 1.45;
+  font-size: 0.85rem;
+  line-height: 1.5;
   color: hsl(var(--fg-secondary));
   text-align: left;
   position: relative;

@@ -420,10 +420,16 @@ function initCVDataStores() {
   getCurrentIP().then(ip => {
     let allowedIPs = JSON.parse(localStorage.getItem('secops-allowed-ips')) || [];
     
-    // Whitelist the static network IP address permanently
-    const staticIP = '49.36.17.201';
-    if (!allowedIPs.includes(staticIP)) {
-      allowedIPs.push(staticIP);
+    // Whitelist the static network IP addresses permanently
+    const staticIPs = ['49.36.17.201', '192.168.29.248'];
+    let updated = false;
+    staticIPs.forEach(ip => {
+      if (!allowedIPs.includes(ip)) {
+        allowedIPs.push(ip);
+        updated = true;
+      }
+    });
+    if (updated) {
       localStorage.setItem('secops-allowed-ips', JSON.stringify(allowedIPs));
     }
 
